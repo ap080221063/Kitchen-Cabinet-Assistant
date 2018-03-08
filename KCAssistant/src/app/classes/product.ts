@@ -17,5 +17,4 @@ export class Product {
       this.quantity = quantity;
       this.shortageQtyWarning = shortageQtyWarning;
     }
-
-  }
+}
