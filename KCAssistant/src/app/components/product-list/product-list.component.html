@@ -1,3 +1,9 @@
-<p>
-  product-list works!
-</p>
+<h2>Product List</h2>
+
+<div>
+  <ul>
+    <li *ngFor="let p of componentProductList">
+      {{p.name}}
+    </li>
+  </ul>
+</div>

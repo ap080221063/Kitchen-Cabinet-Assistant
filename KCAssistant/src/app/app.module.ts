@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { SearchAndFilterComponent } from './components/search-and-filter/search-and-filter.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-
+import { ProductService } from './services/product.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,9 @@ import { ProductListComponent } from './components/product-list/product-list.com
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [
+    ProductService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
