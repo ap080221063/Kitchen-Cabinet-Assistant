@@ -1,9 +1,14 @@
 <h2>Product List</h2>
-
+<span (click)="removeProductButtonVisibleToggle()">showRemove</span>&nbsp;
+<span (click)="addNewProduct()">addProduct</span>
 <div>
   <ul>
     <li *ngFor="let p of componentProductList">
-      {{p.name}}
+      {{p.name}} - [ QTY: {{p.quantity}} 
+      <span (click)="alterProductQty('add',p.id)">add</span>&nbsp;
+      <span (click)="alterProductQty('subtract',p.id)">subtract</span>&nbsp;] ->
+      <span (click)="productDetails(p.id)">details</span>
+      <span (click)="removeProduct(p.id)" *ngIf="removeProductBtnVisible">remove</span>
     </li>
   </ul>
 </div>
