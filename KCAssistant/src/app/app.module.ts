@@ -10,7 +10,7 @@ import { CategoryService } from './services/category.service';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
-// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
     BrowserModule,
     ModalModule.forRoot(),
     FormsModule,
-    // sBsDropdownModule.forRoot(),
+    ButtonsModule.forRoot(),
   ],
   providers: [
     ProductService,

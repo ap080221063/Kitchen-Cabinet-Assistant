@@ -28,9 +28,18 @@ export class ProductListComponent implements OnInit {
 
   public addNewProduct() {
     let product: Product;
-    product = new Product(0, '', null, 0, 0);
+    let category: Category;
+    category = new Category();
+    category.id = 0;
+    category.name = '';
+    product = new Product(0, '', category, 0, 0);
 
-    // make necessary function call to open the add product modal
+    const initialState = {
+      componentProduct: product,
+      title: 'Add a new product',
+    };
+
+    this.bsModalRef = this.modalService.show(ProductComponent, {initialState});
 
   }
 

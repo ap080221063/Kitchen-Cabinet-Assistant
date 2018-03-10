@@ -8,7 +8,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
 import { SpinnerComponent } from '../../components/shared/spinner/spinner.component';
 import { CategoryService } from '../../services/category.service';
-// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @Component({
   selector: 'app-product',
@@ -20,9 +20,11 @@ export class ProductComponent implements OnInit {
   componentProduct: Product;
   bsModalRef: BsModalRef;
   componentTranslations: Translation[];
+  isNew: boolean;
 
   constructor(inbsmodalref: BsModalRef, public categoryService: CategoryService) {
     this.bsModalRef = inbsmodalref;
+    this.isNew = this.componentProduct.id === 0;
    }
 
   ngOnInit() {

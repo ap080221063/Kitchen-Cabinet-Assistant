@@ -1,0 +1,13 @@
+.modalButtonDivFloatLeft{
+    float: left;
+    width: 20%;
+}
+
+.modalButtonDivFloatRight{
+    float: right;
+    width: 20%;
+}
+
+.cursorPointer{
+    cursor:pointer;
+}
