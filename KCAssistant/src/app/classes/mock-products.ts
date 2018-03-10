@@ -3,7 +3,7 @@ import {Product} from './product';
 export const MOCK_PRODUCTS: Product[] = [{
     'id': 1,
     'name': 'Pear - Halves',
-    'category': { id: 1,  name: 'Cat1' },
+    'category': { id: 2,  name: 'Cat2' },
     'quantity': 5,
     'shortageQtyWarning': 3,
     'active': false,

@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../classes/product';
+import { Category } from '../../classes/productCategory';
 import { Translation } from '../../classes/translation';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { FormsModule } from '@angular/forms';
+import { SpinnerComponent } from '../../components/shared/spinner/spinner.component';
+import { CategoryService } from '../../services/category.service';
+// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-product',
@@ -16,7 +21,7 @@ export class ProductComponent implements OnInit {
   bsModalRef: BsModalRef;
   componentTranslations: Translation[];
 
-  constructor(inbsmodalref: BsModalRef) {
+  constructor(inbsmodalref: BsModalRef, public categoryService: CategoryService) {
     this.bsModalRef = inbsmodalref;
    }
 
@@ -36,6 +41,8 @@ export class ProductComponent implements OnInit {
     this.componentProduct.active = false;
   }
 
-
+  public getCategoryList(): Category[] {
+    return this.categoryService.getAllCategories();
+  }
 
 }

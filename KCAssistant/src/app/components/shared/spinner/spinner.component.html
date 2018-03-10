@@ -1,0 +1,10 @@
+<label>{{label}}</label>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text compButtons" (click)="subtract()">-</span>
+  </div>
+  <input type="text" class="form-control compWidth compAlignment" [(ngModel)]="numb" [disabled]="inputdisabled" aria-label="spinner component">
+  <div class="input-group-append">      
+    <span class="input-group-text compButtons" (click)="add()">+</span>
+  </div>
+</div>

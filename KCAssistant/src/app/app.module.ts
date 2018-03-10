@@ -6,23 +6,29 @@ import { SearchAndFilterComponent } from './components/search-and-filter/search-
 import { ProductComponent } from './components/product/product.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
+import { CategoryService } from './services/category.service';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SpinnerComponent } from './components/shared/spinner/spinner.component';
+// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchAndFilterComponent,
     ProductComponent,
-    ProductListComponent
+    ProductListComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
     ModalModule.forRoot(),
-    FormsModule
+    FormsModule,
+    // sBsDropdownModule.forRoot(),
   ],
   providers: [
-    ProductService
+    ProductService,
+    CategoryService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ProductComponent]

@@ -10,31 +10,30 @@
       <div *ngIf="componentProduct">
         <div class="row">
             <div class="col-xs-12">
-                <div>
-                    <label>Name:
-                        <input [(ngModel)]="componentProduct.name" disabled>
-                    </label>
+                <div class="form-group">
+                        <label for="productname">Name</label>
+                        <input type="text" class="form-control" id="productname" aria-describedby="Name" placeholder="product name" [(ngModel)]="componentProduct.name" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="productcategory">Category</label>
+                    <select id="productcategory" class="form-control"><!--[(ngModel)]="componentProduct.category.name"-->
+                        <option *ngFor="let c of getCategoryList()" 
+                        [value]="c.name" 
+                        [attr.selected]="c.id==componentProduct.category.id ? true : null">{{c.name}}</option>
+                    </select>
                 </div>
                 <div>
-                    <label>Category:
-                        <input [(ngModel)]="componentProduct.category.name">
-                    </label>
+                    <app-spinner [label]="'Quantity'" [numb]="componentProduct.quantity" [inputdisabled]="true"></app-spinner>   
                 </div>
-                <div>
-                    <label>Quantity:
-                        <input [(ngModel)]="componentProduct.quantity">
-                    </label>
+                <div>                    
+                    <app-spinner [label]="'Shortage qty. warning'" [numb]="componentProduct.shortageQtyWarning" [inputdisabled]="true"></app-spinner>
                 </div>
-                <div>
-                    <label>Shortage Quantity Alert:
-                        <input [(ngModel)]="componentProduct.shortageQtyWarning">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="activeCheckbox" [(ngModel)]="componentProduct.active">
+                    <label class="form-check-label" for="activeCheckbox">
+                        Active
                     </label>
-                </div>
-                <div>
-                    <label>Active:
-                        <input [(ngModel)]="componentProduct.active">
-                    </label>
-                </div>                
+                </div>         
               <span (click)="save()">save</span>
               <span (click)="delete()">delete</span>
             </div>

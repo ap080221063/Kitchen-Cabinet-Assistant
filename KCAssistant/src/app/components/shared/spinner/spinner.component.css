@@ -1,0 +1,15 @@
+.compWidth{
+    max-width: 50px;
+}
+
+.compAlignment{
+    text-align: center;
+}
+
+.compButtons{
+    cursor: pointer;
+}
+
+.compButtons:hover{
+    background-color: azure;
+}
