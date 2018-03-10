@@ -1,3 +1,45 @@
-<p>
-  product works!
-</p>
+<div id="app-modal-content">  
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div *ngIf="componentProduct">
+        <div class="row">
+            <div class="col-xs-12">
+                <div>
+                    <label>Name:
+                        <input [(ngModel)]="componentProduct.name" disabled>
+                    </label>
+                </div>
+                <div>
+                    <label>Category:
+                        <input [(ngModel)]="componentProduct.category.name">
+                    </label>
+                </div>
+                <div>
+                    <label>Quantity:
+                        <input [(ngModel)]="componentProduct.quantity">
+                    </label>
+                </div>
+                <div>
+                    <label>Shortage Quantity Alert:
+                        <input [(ngModel)]="componentProduct.shortageQtyWarning">
+                    </label>
+                </div>
+                <div>
+                    <label>Active:
+                        <input [(ngModel)]="componentProduct.active">
+                    </label>
+                </div>                
+              <span (click)="save()">save</span>
+              <span (click)="delete()">delete</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

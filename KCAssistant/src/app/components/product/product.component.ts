@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../classes/product';
 import { Translation } from '../../classes/translation';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-product',
@@ -10,11 +13,15 @@ import { Translation } from '../../classes/translation';
 export class ProductComponent implements OnInit {
 
   componentProduct: Product;
+  bsModalRef: BsModalRef;
   componentTranslations: Translation[];
 
-  constructor() { }
+  constructor(inbsmodalref: BsModalRef) {
+    this.bsModalRef = inbsmodalref;
+   }
 
   ngOnInit() {
+   // this.componentProduct = this.bsModalRef.content.product;
   }
 
   public save() {

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../classes/product';
 import { ProductService } from '../../services/product.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { ProductComponent } from '../product/product.component';
+import { Category } from '../../classes/productCategory';
 
 @Component({
   selector: 'app-product-list',
@@ -11,8 +15,10 @@ export class ProductListComponent implements OnInit {
 
   componentProductList: Product[];
   removeProductBtnVisible: boolean;
+  bsModalRef: BsModalRef;
 
-  constructor(private prodService: ProductService) {
+  constructor(private prodService: ProductService,
+              private modalService: BsModalService) {
     this.removeProductBtnVisible = false;
   }
 
@@ -44,10 +50,23 @@ export class ProductListComponent implements OnInit {
 
   }
 
-  public productDetails(prodId: number) {
+  public productDetails(prodId: number): void {
+    // this.onSelect(hero);
+    let componentProduct: Product;
+    componentProduct = this.componentProductList.find(y => y.id === prodId);
 
-    // make necessary function call to open the add product modal
+    const initialState = {
+      componentProduct: componentProduct,
+      title: componentProduct.name,
+    };
 
+    // let pc: ProductComponent;
+    // pc = new ProductComponent(this.bsModalRef);
+    // pc.componentProduct = product;
+    // pc.bsModalRef = this.bsModalRef;
+
+    // this.bsModalRef = this.modalService.show(pc);
+    this.bsModalRef = this.modalService.show(ProductComponent, {initialState});
   }
 
   public alterProductQty(type: string, prodId: number) {
