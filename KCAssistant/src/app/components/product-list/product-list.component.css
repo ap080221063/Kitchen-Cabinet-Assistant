@@ -35,3 +35,35 @@
 .fontsizebigger {
     font-size: 30px;
 }
+
+.productCard {
+    max-width: 18rem; 
+    max-height: 18rem;
+    float: left;
+    margin: 10px;
+}
+
+.productCard .card-header {
+    max-height: 49px;
+    clear: both;
+}
+
+.productCard .card-body {
+    height: 100px;
+    text-overflow: ellipsis;
+}
+
+.productCardHeaderTitle {
+    max-height: 25px;
+    float: left;
+    width: 70%;
+    word-break: break-all;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    overflow-y: hidden;
+}
+
+.productCardHeaderButton {
+    float: right;
+    width: 10%;
+}

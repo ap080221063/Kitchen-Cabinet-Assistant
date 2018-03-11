@@ -19,18 +19,27 @@
 <div class="borderthis listmargins">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <div>
-              <ul>
-                <li *ngFor="let p of componentProductList">
-                  {{p.name}} - [ QTY: {{p.quantity}} 
-                  <span (click)="alterProductQty('add',p.id)">add</span>&nbsp;
-                  <span (click)="alterProductQty('subtract',p.id)">subtract</span>&nbsp;] ->
-                  <span (click)="productDetails(p.id)">details</span>
-                  <span (click)="removeProduct(p.id)" *ngIf="removeProductBtnVisible">remove</span>
-                </li>
-              </ul>
+      <div class="">
+          <div class="card productCard" *ngFor="let p of componentProductList">
+            <div class="card-header">
+              <div class="productCardHeaderTitle">
+                {{p.name}}
+              </div>
+              <div class="productCardHeaderButton">
+                  <span class="thickerFont" (click)="productDetails(p.id)">D</span> 
+                </div>
+              <div class="productCardHeaderButton">
+                <span (click)="removeProduct(p.id)" *ngIf="removeProductBtnVisible">&#xd7;</span>
+              </div> 
             </div>
+            <div class="card-body">
+              <!-- <h5 class="card-title">Success card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+            </div>
+            <div class="card-footer">[ QTY: {{p.quantity}} 
+                <span (click)="alterProductQty('add',p.id)">add</span>&nbsp;
+                <span (click)="alterProductQty('subtract',p.id)">subtract</span>&nbsp;]</div>
+          </div>
       </div>
     </div>
   </div>
