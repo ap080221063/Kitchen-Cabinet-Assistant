@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../classes/product';
 import { MOCK_PRODUCTS } from '../classes/mock-products';
-// to be removed, testing purpose only
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class ProductService {
 
+  private productList = new Subject<Product[]>();
+
   constructor() { }
 
-  public getAllProducts(): Product[] {
+  public getAllProducts(): Observable<Product[]> {
     let productlist: Product[];
     productlist = new Array<Product>();
 
@@ -16,7 +20,8 @@ export class ProductService {
       productlist.push(p);
     }
 
-    return productlist;
+    this.productList.next(productlist);
+    return this.productList.asObservable();
   }
 
 }

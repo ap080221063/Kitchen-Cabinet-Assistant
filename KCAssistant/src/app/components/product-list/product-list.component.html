@@ -1,15 +1,39 @@
-<h2>Product List</h2>
-<span (click)="removeProductButtonVisibleToggle()">showRemove</span>&nbsp;
-<span (click)="addNewProduct()">addProduct</span>
-<div>
-  <ul>
-    <li *ngFor="let p of componentProductList">
-      {{p.name}} - [ QTY: {{p.quantity}} 
-      <span (click)="alterProductQty('add',p.id)">add</span>&nbsp;
-      <span (click)="alterProductQty('subtract',p.id)">subtract</span>&nbsp;] ->
-      <span (click)="productDetails(p.id)">details</span>
-      <span (click)="removeProduct(p.id)" *ngIf="removeProductBtnVisible">remove</span>
-    </li>
-  </ul>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 15px;">   
+        <div class="col-xs-4">
+            <button type="button" class="btn btn-danger buttonDivFloatRight buttonRightSeperation thickerFont" (click)="removeProductButtonVisibleToggle()">&#xd7;</button>
+        </div>  
+        <div class="col-xs-4">
+            <button type="button" class="btn btn-success buttonDivFloatRight buttonRightSeperation thickerFont" (click)="addNewProduct()">&#x2b;</button>
+        </div>         
+        <div class="col-xs-4">
+            <button type="button" class="btn btn-primary buttonDivFloatRight buttonRightSeperation">shopping list</button>
+        </div>          
+        <div class="col-xs-4">
+            <span class="buttonDivFloatLeft buttonLeftSeperation fontsizebigger">Product List</span>
+        </div>           
+    </div>
+  </div>
 </div>
+<div class="borderthis listmargins">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <div>
+              <ul>
+                <li *ngFor="let p of componentProductList">
+                  {{p.name}} - [ QTY: {{p.quantity}} 
+                  <span (click)="alterProductQty('add',p.id)">add</span>&nbsp;
+                  <span (click)="alterProductQty('subtract',p.id)">subtract</span>&nbsp;] ->
+                  <span (click)="productDetails(p.id)">details</span>
+                  <span (click)="removeProduct(p.id)" *ngIf="removeProductBtnVisible">remove</span>
+                </li>
+              </ul>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 

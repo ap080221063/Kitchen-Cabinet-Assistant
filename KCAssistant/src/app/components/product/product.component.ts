@@ -20,11 +20,10 @@ export class ProductComponent implements OnInit {
   componentProduct: Product;
   bsModalRef: BsModalRef;
   componentTranslations: Translation[];
-  isNew: boolean;
+  isnew: boolean;
 
   constructor(inbsmodalref: BsModalRef, public categoryService: CategoryService) {
     this.bsModalRef = inbsmodalref;
-    this.isNew = this.componentProduct.id === 0;
    }
 
   ngOnInit() {

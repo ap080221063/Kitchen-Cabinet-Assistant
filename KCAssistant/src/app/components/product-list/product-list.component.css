@@ -1,0 +1,37 @@
+.borderthis {
+    border: 2px solid rgb(0, 69, 126) !important;
+    border-radius: 0.8em;
+}
+
+.listmargins {
+    margin: 20px;
+    margin-top: 2px;
+}
+
+.listwidth {
+    width: 100%;
+}
+
+.buttonDivFloatLeft {
+    float: left;
+}
+
+.buttonDivFloatRight {
+    float: right;
+}
+
+.buttonRightSeperation{
+    margin-right: 5px;
+}
+
+.buttonLeftSeperation{
+    margin-left: 5px;
+}
+
+.thickerFont {
+    font-weight: bold;
+}
+
+.fontsizebigger {
+    font-size: 30px;
+}
