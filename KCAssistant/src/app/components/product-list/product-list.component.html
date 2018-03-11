@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 15px;">   
         <div class="col-xs-4">
-            <button type="button" class="btn btn-danger buttonDivFloatRight buttonRightSeperation thickerFont" (click)="removeProductButtonVisibleToggle()">&#xd7;</button>
+            <button type="button" class="btn btn-danger buttonDivFloatRight buttonRightSeperation thickerFont" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="removeProductButtonVisibleToggle()"><i class="far fa-trash-alt"></i></button>
         </div>  
         <div class="col-xs-4">
-            <button type="button" class="btn btn-success buttonDivFloatRight buttonRightSeperation thickerFont" (click)="addNewProduct()">&#x2b;</button>
+            <button type="button" class="btn btn-success buttonDivFloatRight buttonRightSeperation thickerFont" (click)="addNewProduct()"><i class="far fa-plus-square"></i></button>
         </div>         
         <div class="col-xs-4">
             <button type="button" class="btn btn-primary buttonDivFloatRight buttonRightSeperation">shopping list</button>
@@ -25,16 +25,16 @@
               <div class="productCardHeaderTitle">
                 {{p.name}}
               </div>
-              <div class="productCardHeaderButton">
-                  <span class="thickerFont" (click)="productDetails(p.id)">D</span> 
+              <div class="productCardHeaderButton">             
+                  <button type="button" class="btn btn-xs btn-primary buttonDivFloatRight thickerFont" style="max-width:37.75px" *ngIf="!removeProductBtnVisible"
+                   (click)="productDetails(p.id)"><i class="far fa-edit"></i></button>
                 </div>
               <div class="productCardHeaderButton">
-                <span (click)="removeProduct(p.id)" *ngIf="removeProductBtnVisible">&#xd7;</span>
+                <button type="button" class="btn btn-xs btn-danger buttonDivFloatRight thickerFont" *ngIf="removeProductBtnVisible"
+                  (click)="removeProduct(p.id)"><i class="far fa-trash-alt"></i></button>
               </div> 
             </div>
             <div class="card-body">
-              <!-- <h5 class="card-title">Success card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
             </div>
             <div class="card-footer">[ QTY: {{p.quantity}} 
                 <span (click)="alterProductQty('add',p.id)">add</span>&nbsp;

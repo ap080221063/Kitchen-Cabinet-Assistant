@@ -6,6 +6,9 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ProductComponent } from '../product/product.component';
 import { Category } from '../../classes/productCategory';
 import { Subscription } from 'rxjs/Subscription';
+import fontawesome from '@fortawesome/fontawesome';
+import faTrashAlt from '@fortawesome/fontawesome-free-regular/';
+//import plussquare from '@fortawesome/fontawesome-free-regular/';
 
 @Component({
   selector: 'app-product-list',
@@ -21,6 +24,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   constructor(private prodService: ProductService,
               private modalService: BsModalService) {
+
+    fontawesome.library.add(faTrashAlt); //, plussquare
 
     this.componentProductListSubscription = this.prodService.getAllProducts()
         .subscribe(products => {this.componentProductList = products; });

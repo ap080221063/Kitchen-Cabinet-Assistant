@@ -39,6 +39,8 @@
 .productCard {
     max-width: 18rem; 
     max-height: 18rem;
+    width: 18rem; 
+    height: 18rem;
     float: left;
     margin: 10px;
 }
@@ -46,6 +48,7 @@
 .productCard .card-header {
     max-height: 49px;
     clear: both;
+    padding: 5px;
 }
 
 .productCard .card-body {
@@ -61,9 +64,15 @@
     word-wrap: break-word;
     text-overflow: ellipsis;
     overflow-y: hidden;
+    line-height: 28px;
 }
 
 .productCardHeaderButton {
     float: right;
     width: 10%;
+}
+
+.productCardHeaderButton button {
+    line-height: 14px;
+    font-size: 14px;
 }
