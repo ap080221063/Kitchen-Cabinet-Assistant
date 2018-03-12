@@ -7,8 +7,8 @@ import { ProductComponent } from '../product/product.component';
 import { Category } from '../../classes/productCategory';
 import { Subscription } from 'rxjs/Subscription';
 import fontawesome from '@fortawesome/fontawesome';
-import faTrashAlt from '@fortawesome/fontawesome-free-regular/';
-//import plussquare from '@fortawesome/fontawesome-free-regular/';
+import faicons from '@fortawesome/fontawesome-free-regular/';
+import faiconssolid from '@fortawesome/fontawesome-free-solid/';
 
 @Component({
   selector: 'app-product-list',
@@ -25,7 +25,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(private prodService: ProductService,
               private modalService: BsModalService) {
 
-    fontawesome.library.add(faTrashAlt); //, plussquare
+    fontawesome.library.add(faicons);
+    fontawesome.library.add(faiconssolid);
 
     this.componentProductListSubscription = this.prodService.getAllProducts()
         .subscribe(products => {this.componentProductList = products; });
