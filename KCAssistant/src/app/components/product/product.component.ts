@@ -46,4 +46,8 @@ export class ProductComponent implements OnInit {
     return this.categoryService.getAllCategories();
   }
 
+  qtychanged(input: number) {
+    this.componentProduct.quantity = input;
+  }
+
 }

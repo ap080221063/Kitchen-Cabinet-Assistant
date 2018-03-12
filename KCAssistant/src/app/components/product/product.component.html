@@ -23,7 +23,7 @@
                     </select>
                 </div>
                 <div>
-                    <app-spinner [label]="'Quantity'" [numb]="componentProduct.quantity" [inputdisabled]="true"></app-spinner>   
+                    <app-spinner (qtychanged)="qtychanged($event)" [label]="'Quantity'" [numb]="componentProduct.quantity" [inputdisabled]="true"></app-spinner>   
                 </div>
                 <div>                    
                     <app-spinner [label]="'Shortage qty. warning'" [numb]="componentProduct.shortageQtyWarning" [inputdisabled]="true"></app-spinner>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-spinner',
@@ -9,6 +9,7 @@ export class SpinnerComponent implements OnInit {
   @Input() numb: number;
   @Input() label: string;
   @Input() inputdisabled: boolean;
+  @Output() qtychanged = new EventEmitter<number>();
 
   constructor() { }
 
@@ -17,6 +18,7 @@ export class SpinnerComponent implements OnInit {
 
   public add() {
     this.numb = this.numb + 1;
+    this.qtychanged.emit(this.numb);
   }
 
   public subtract() {
