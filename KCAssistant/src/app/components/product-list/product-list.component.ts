@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
 import fontawesome from '@fortawesome/fontawesome';
 import faicons from '@fortawesome/fontawesome-free-regular/';
 import faiconssolid from '@fortawesome/fontawesome-free-solid/';
+import { ShoppingListComponent } from '../shopping-list/shopping-list.component';
 
 @Component({
   selector: 'app-product-list',
@@ -110,7 +111,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public extractShoppingList() {
 
-    // make necessary function call to open the add product modal
+    const initialState = {
+      title: 'Shopping list',
+      neededProductList: this.prodService.getNeededProducts()
+    };
+
+    this.bsModalRef = this.modalService.show(ShoppingListComponent, {initialState});
 
   }
 

@@ -13,15 +13,28 @@ export class ProductService {
   constructor() { }
 
   public getAllProducts(): Observable<Product[]> {
-    let productlist: Product[];
-    productlist = new Array<Product>();
+    let productAuxList: Product[];
+    productAuxList = new Array<Product>();
 
-    for (const p of MOCK_PRODUCTS) {
-      productlist.push(p);
+    for (const p of MOCK_PRODUCTS) { // get data from the dbase
+      productAuxList.push(p);
     }
 
-    this.productList.next(productlist);
+    this.productList.next(productAuxList);
     return this.productList.asObservable();
+  }
+
+  public getNeededProducts(): Array<Product> {
+    let productAuxList: Product[];
+    productAuxList = new Array<Product>();
+
+    for (const p of MOCK_PRODUCTS) { // get data from the dbase
+      if (p.quantity <= p.shortageQtyWarning && p.active === true) {
+        productAuxList.push(p);
+      }
+    }
+
+    return productAuxList;
   }
 
 }

@@ -1,0 +1,32 @@
+<div id="app-modal-content">  
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Product</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let p of neededProductList">
+                    <th scope="row">{{p.quantity}}</th>
+                    <td>{{p.name}}</td>
+                  </tr>                 
+                </tbody>
+              </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

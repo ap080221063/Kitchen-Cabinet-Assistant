@@ -24,6 +24,7 @@ export class SpinnerComponent implements OnInit {
   public subtract() {
     if (this.numb > 0) {
       this.numb = this.numb - 1;
+      this.qtychanged.emit(this.numb);
     }
   }
 

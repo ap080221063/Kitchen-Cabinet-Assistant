@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     SearchAndFilterComponent,
     ProductComponent,
     ProductListComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    ShoppingListComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +33,9 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     CategoryService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ProductComponent]
+  entryComponents: [
+     ProductComponent,
+     ShoppingListComponent
+  ]
 })
 export class AppModule { }
