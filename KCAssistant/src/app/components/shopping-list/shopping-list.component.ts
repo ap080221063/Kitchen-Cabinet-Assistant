@@ -3,6 +3,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { Product } from '../../classes/product';
+import { ProductService } from '../../services/product.service';
 
 
 @Component({
@@ -15,11 +16,21 @@ export class ShoppingListComponent implements OnInit {
   neededProductList: Product[];
   bsModalRef: BsModalRef;
 
-  constructor(inbsmodalref: BsModalRef) {
+  constructor(inbsmodalref: BsModalRef,
+      private prodService: ProductService) {
     this.bsModalRef = inbsmodalref;
    }
 
   ngOnInit() {
+  }
+
+  confirmShoppingListBuy(): void {
+
+    for (let p of this.neededProductList) {
+      this.prodService.addProduct(p);
+    }
+
+    this.bsModalRef.hide();
   }
 
 }

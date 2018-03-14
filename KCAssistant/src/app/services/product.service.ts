@@ -30,6 +30,7 @@ export class ProductService {
 
     for (const p of MOCK_PRODUCTS) { // get data from the dbase
       if (p.quantity <= p.shortageQtyWarning && p.active === true) {
+        p.predictToBuy = (p.shortageQtyWarning - p.quantity) + 1;
         productAuxList.push(p);
       }
     }
@@ -37,4 +38,17 @@ export class ProductService {
     return productAuxList;
   }
 
+  public addProduct(product: Product): void {
+    let productAuxList: Product[];
+    productAuxList = new Array<Product>();
+
+    for (const p of MOCK_PRODUCTS) { // get data from the dbase
+      if (p.id === product.id) {
+        p.quantity = p.quantity + product.predictToBuy;
+      }
+      productAuxList.push(p);
+    }
+
+    this.productList.next(productAuxList);
+  }
 }
