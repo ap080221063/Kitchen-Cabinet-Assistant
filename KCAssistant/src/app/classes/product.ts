@@ -8,7 +8,7 @@ export class Product {
     shortageQtyWarning: number;
     active: boolean;
     imgUrl: string;
-    predictToBuy: number;
+    private predictToBuy: number;
 
     constructor(id: number, name: string, category: Category, quantity: number, shortageQtyWarning: number) {
       this.id = 0;
