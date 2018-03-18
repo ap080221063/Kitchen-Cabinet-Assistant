@@ -22,7 +22,7 @@
                   <tr *ngFor="let p of neededProductList">
                     <th scope="row">{{ p.quantity }}</th>
                     <td>{{ p.name }}</td>
-                    <td>{{ p.predictToBuy }}</td>
+                    <td><app-spinner (qtychanged)="qtychanged($event)" [label]="" [numb]="p.predictToBuy" [other]="p.id" [inputdisabled]="true"></app-spinner></td>
                   </tr>                 
                 </tbody>
               </table>

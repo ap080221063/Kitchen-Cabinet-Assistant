@@ -116,7 +116,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       neededProductList: this.prodService.getNeededProducts()
     };
 
-    this.bsModalRef = this.modalService.show(ShoppingListComponent, {initialState});
+    this.bsModalRef = this.modalService.show(ShoppingListComponent, Object.assign({initialState}, { class: 'gray modal-lg' }));
 
   }
 

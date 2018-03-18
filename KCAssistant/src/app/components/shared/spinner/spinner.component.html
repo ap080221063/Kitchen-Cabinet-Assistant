@@ -1,4 +1,4 @@
-<label>{{label}}</label>
+<label *ngIf="label!==undefined">{{label}}</label>
 <div class="input-group mb-3">
   <div class="input-group-prepend">
     <span class="input-group-text compButtons" (click)="subtract()">-</span>
