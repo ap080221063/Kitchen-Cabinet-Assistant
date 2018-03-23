@@ -77,3 +77,8 @@
     line-height: 14px;
     font-size: 14px;
 }
+
+.stylishFont {
+    font-size: 25px;
+    font-family: cursive;
+}

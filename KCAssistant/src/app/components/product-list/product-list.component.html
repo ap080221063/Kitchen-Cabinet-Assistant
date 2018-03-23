@@ -38,13 +38,13 @@
             </div>
             <div class="card-footer">
               <div class="buttonDivFloatLeft" style="width:33%; text-align:left;">
-                <button type="button" class="btn btn-light thickerFont" (click)="alterProductQty('subtract',p.id)"><i class="fas fa-minus"></i></button>
+                <button type="button" class="btn btn-light" (click)="alterProductQty('subtract',p.id)"><i class="fas fa-minus"></i></button>
               </div>  
-              <div class="buttonDivFloatLeft badge badge-dark" style="width:30%; text-align:center; font-size: 25px;">
+              <div class="buttonDivFloatLeft stylishFont" style="width:30%; text-align:center; font-size: 25px;">
                   <span>{{p.quantity}}</span>
               </div>         
               <div class="buttonDivFloatRight" style="width:33%; text-align:right;">                
-                <button type="button" class="btn btn-light thickerFont" (click)="alterProductQty('add',p.id)"><i class="fas fa-plus"></i></button>
+                <button type="button" class="btn btn-light" (click)="alterProductQty('add',p.id)"><i class="fas fa-plus"></i></button>
               </div>  
             </div>
           </div>

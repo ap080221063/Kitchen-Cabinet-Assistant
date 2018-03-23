@@ -29,7 +29,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     fontawesome.library.add(faicons);
     fontawesome.library.add(faiconssolid);
 
-    this.componentProductListSubscription = this.prodService.getAllProducts()
+    this.componentProductListSubscription = this.prodService.getActiveProducts()
         .subscribe(products => {this.componentProductList = products; });
     this.removeProductBtnVisible = false;
   }
@@ -44,7 +44,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   public getProducts(): void {
-    this.prodService.getAllProducts();
+    this.prodService.getActiveProducts();
   }
 
   public addNewProduct() {
@@ -72,14 +72,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   public removeProduct(prodId: number) {
-    let componentProductListAux: Product[];
-    componentProductListAux = this.componentProductList;
-
-    componentProductListAux[this.componentProductList.findIndex(y => y.id === prodId)].active = false;
+    this.componentProductList[this.componentProductList.findIndex(y => y.id === prodId)].active = false;
+    this.getProducts();
     // to aggressive to remove imediatly
     // componentProductListAux.splice(this.componentProductList.findIndex(y => y.id === prodId), 1);
-
-    this.componentProductList = componentProductListAux;
 
   }
 
@@ -95,6 +91,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     };
 
     this.bsModalRef = this.modalService.show(ProductComponent, {initialState});
+
   }
 
   public alterProductQty(type: string, prodId: number) {

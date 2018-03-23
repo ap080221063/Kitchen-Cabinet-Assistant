@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { SpinnerComponent } from '../../components/shared/spinner/spinner.component';
 import { CategoryService } from '../../services/category.service';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -22,7 +23,7 @@ export class ProductComponent implements OnInit {
   componentTranslations: Translation[];
   isnew: boolean;
 
-  constructor(inbsmodalref: BsModalRef, public categoryService: CategoryService) {
+  constructor(inbsmodalref: BsModalRef, public categoryService: CategoryService, public productService: ProductService) {
     this.bsModalRef = inbsmodalref;
    }
 
@@ -36,10 +37,14 @@ export class ProductComponent implements OnInit {
     } else {
       // save existing
     }
+    this.productService.getActiveProducts();
+    this.bsModalRef.hide();
   }
 
   public delete() {
     this.componentProduct.active = false;
+    this.productService.getActiveProducts();
+    this.bsModalRef.hide();
   }
 
   public getCategoryList(): Category[] {
