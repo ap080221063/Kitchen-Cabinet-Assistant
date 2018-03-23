@@ -64,7 +64,7 @@ export class ProductService {
       productAuxList = new Array<Product>();
 
       MOCK_PRODUCTS.forEach(e => {
-        if (e.name.startsWith(filter)) {
+        if (e.name.toLowerCase().indexOf(filter.toLowerCase()) > -1) {
           productAuxList.push(e);
         }
       });
