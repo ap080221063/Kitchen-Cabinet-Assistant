@@ -37,7 +37,7 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 15px;">   
                 <div class="col-xs-6">
-                    <button type="button" class="btn btn-danger modalButtonDivFloatLeft" (click)="delete()">Delete</button>
+                    <button type="button" *ngIf="!isnew" class="btn btn-danger modalButtonDivFloatLeft" (click)="delete()">Delete</button>
                 </div>  
                 <div class="col-xs-6">
                     <button type="button" class="btn btn-primary modalButtonDivFloatRight" (click)="save()">Save</button>
