@@ -1,6 +1,6 @@
 <div class="container-fluid toppadding">
   <div class="input-group mb-3">
-    <input type="text" class="form-control inputModForSearchBox" placeholder="search for a product" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <input type="text" class="form-control inputModForSearchBox" placeholder="search for a product" aria-label="Recipient's username" aria-describedby="basic-addon2" (keyup)="myObservable.next($event.target.value)">
   </div>
 </div>
 

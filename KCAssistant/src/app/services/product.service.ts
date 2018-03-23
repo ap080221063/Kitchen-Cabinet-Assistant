@@ -51,4 +51,26 @@ export class ProductService {
 
     this.productList.next(productAuxList);
   }
+
+  public clearFilter() {
+    this.getAllProducts();
+  }
+
+  public sendFilteredProductList(filter: string) {
+    if (filter === null || filter === '' ) {
+      this.getAllProducts();
+    } else {
+      let productAuxList: Product[];
+      productAuxList = new Array<Product>();
+
+      MOCK_PRODUCTS.forEach(e => {
+        if (e.name.startsWith(filter)) {
+          productAuxList.push(e);
+        }
+      });
+
+    this.productList.next(productAuxList);
+    }
+  }
+
 }
