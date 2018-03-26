@@ -12,6 +12,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -27,10 +28,13 @@ import { ShoppingListComponent } from './components/shopping-list/shopping-list.
     ModalModule.forRoot(),
     FormsModule,
     ButtonsModule.forRoot(),
+    HttpClientModule
   ],
   providers: [
     ProductService,
-    CategoryService
+    CategoryService,
+    HttpClientModule,
+    HttpClient
   ],
   bootstrap: [AppComponent],
   entryComponents: [
