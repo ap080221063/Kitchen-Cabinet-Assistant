@@ -1,26 +1,38 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var filesystem = require('fs');
 var app = express();
 
 app.use(bodyParser.json());
 
-app.get('/maps', function(req, res) {
-  var dados = [
-    {
-      lat: -25.470991, 
-      lon: -49.271036
-    },
-    {
-      lat: -0.935586,
-      lon: -49.635540
-    },
-    {
-      lat: -2.485874, 
-      lon: -43.128493
-    }
-  ];
+app.get('/product/:id', function(req, res) {
+  var id = req.params.id;
 
-  res.send(JSON.stringify(dados));
+  var productdata;
+  var product;
+  //get product data by id
+   filesystem.readFile('AuxiliaryFiles/data.json', 
+    function(err, data) {
+      productdata = JSON.parse(data);
+
+      for(var p = 0; p < productdata.length; p++){
+        if(productdata[p].id==id){
+            product = productdata[p];
+        }
+      }
+
+      res.send(product);
+    });
+});
+
+app.get('/productlist', function(req, res) {
+  var productdata;
+  //get product data by id
+   filesystem.readFile('AuxiliaryFiles/data.json', 
+    function(err, data) {
+      productdata = JSON.parse(data);
+      res.send(productdata);
+    });
 });
 
 app.listen(8081, function() {
