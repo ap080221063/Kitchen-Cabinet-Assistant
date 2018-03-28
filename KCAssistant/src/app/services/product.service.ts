@@ -1,81 +1,45 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../classes/product';
-import { MOCK_PRODUCTS } from '../classes/mock-products';
+// import { MOCK_PRODUCTS } from '../classes/mock-products';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 
-    import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-    import 'rxjs/add/operator/map';
+import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ProductService {
 
-  private productList = new Subject<Product[]>();
+  public productList = new Subject<Product[]>();
+  public neededProductsList = new Subject<Product[]>();
 
-      public Server = 'http://localhost:8081/';
-      public ApiUrl = 'productlist';
-      public ServerWithApiUrl = this.Server + this.ApiUrl;
+  private localList: Array<Product>;
+
+  public Server = 'http://localhost:8081/';
 
   constructor(private http: HttpClient) { }
 
-  public getActiveProducts(): Observable<Product[]> {
-    let productAuxList: Product[];
-    productAuxList = new Array<Product>();
+  public getActiveProducts(): void {
+    this.http.get<any>(this.Server + 'productlist')
+            .subscribe(data => this.productList.next(this.activeList(data)));
 
-    this.http.get<any>(this.ServerWithApiUrl);
-
-    for (const p of MOCK_PRODUCTS) { // get data from the dbase
-      if (p.active === true) {
-        productAuxList.push(p);
-      }
-    }
-
-    this.productList.next(productAuxList);
-    return this.productList.asObservable();
   }
 
-  public getAllProducts(): Observable<Product[]> {
-    let productAuxList: Product[];
-    productAuxList = new Array<Product>();
-
-    for (const p of MOCK_PRODUCTS) { // get data from the dbase
-      productAuxList.push(p);
-    }
-
-    this.productList.next(productAuxList);
-    return this.productList.asObservable();
+  public getAllProducts(): void {
+    this.http.get<any>(this.Server + 'productlist')
+            .subscribe(data => this.productList.next(data));
   }
 
-  public getNeededProducts(): Array<Product> {
-    let productAuxList: Product[];
-    productAuxList = new Array<Product>();
+  public getNeededProducts(): void {
+     this.http.get<any>(this.Server + 'productlist')
+            .subscribe(data => this.neededProductsList.next(this.neededList(data)));
 
-    for (const p of MOCK_PRODUCTS) { // get data from the dbase
-      if (p.quantity <= p.shortageQtyWarning && p.active === true) {
-        p.predictToBuy = (p.shortageQtyWarning - p.quantity) + 1;
-        productAuxList.push(p);
-      }
-    }
-
-    return productAuxList;
   }
 
   public addProduct(product: Product): void {
-    let productAuxList: Product[];
-    productAuxList = new Array<Product>();
-
-    for (const p of MOCK_PRODUCTS) { // get data from the dbase
-      if (p.id === product.id) {
-        p.quantity = p.quantity + product.predictToBuy;
-      }
-
-      if (p.active === true) {
-        productAuxList.push(p);
-      }
-    }
-
-    this.productList.next(productAuxList);
+    this.http.get<any>(this.Server + 'productlist')
+    .subscribe(data => this.productList.next(this.addtoList(data, product)));
   }
 
   public clearFilter() {
@@ -86,17 +50,60 @@ export class ProductService {
     if (filter === null || filter === '' ) {
       this.getActiveProducts();
     } else {
-      let productAuxList: Product[];
-      productAuxList = new Array<Product>();
+       let productAuxList: Product[];
+       productAuxList = new Array<Product>();
 
-      MOCK_PRODUCTS.forEach(e => {
-        if (e.name.toLowerCase().indexOf(filter.toLowerCase()) > -1 && e.active === true) {
-          productAuxList.push(e);
-        }
-      });
-
-    this.productList.next(productAuxList);
+       this.http.get<any>(this.Server + 'productlist/filter/' + filter)
+        .subscribe(data => this.productList.next(data)); // .next(this.filteredList(data, filter))
     }
+  }
+
+  // private auxiliary methods
+
+  private activeList(pArray: Array<Product>): Array<Product> {
+    let productAuxList: Product[];
+    productAuxList = new Array<Product>();
+
+    pArray.forEach(e => {
+      if (e.active === true) {
+        productAuxList.push(e);
+      }
+    });
+
+    this.localList = productAuxList;
+
+    return productAuxList;
+  }
+
+  private neededList(pArray: Array<Product>): Array<Product> {
+    let productAuxList: Product[];
+    productAuxList = new Array<Product>();
+
+    pArray.forEach(e => {
+      if (e.quantity <= e.shortageQtyWarning && e.active === true) {
+        e.predictToBuy = (e.shortageQtyWarning - e.quantity) + 1;
+        productAuxList.push(e);
+      }
+    });
+
+    return productAuxList;
+  }
+
+  private addtoList(pArray: Array<Product>, prodToAdd: Product): Array<Product> {
+    let productAuxList: Product[];
+    productAuxList = new Array<Product>();
+
+    pArray.forEach(e => {
+      if (e.id === prodToAdd.id) {
+        e.quantity = e.quantity + prodToAdd.predictToBuy;
+      }
+
+      if (e.active === true) {
+        productAuxList.push(e);
+      }
+    });
+
+    return productAuxList;
   }
 
 }

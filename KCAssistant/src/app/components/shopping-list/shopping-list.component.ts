@@ -5,6 +5,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { Product } from '../../classes/product';
 import { ProductService } from '../../services/product.service';
 import { SpinnerComponent } from '../../components/shared/spinner/spinner.component';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-shopping-list',
@@ -13,6 +14,7 @@ import { SpinnerComponent } from '../../components/shared/spinner/spinner.compon
 })
 export class ShoppingListComponent implements OnInit {
 
+  neededProductListSubscription: Subscription;
   neededProductList: Product[];
   bsModalRef: BsModalRef;
 
@@ -22,6 +24,8 @@ export class ShoppingListComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.neededProductListSubscription = this.prodService.neededProductsList
+        .subscribe(products => {this.neededProductList = products; });
   }
 
   confirmShoppingListBuy(): void {

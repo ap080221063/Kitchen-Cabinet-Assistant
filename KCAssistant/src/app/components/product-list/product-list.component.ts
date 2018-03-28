@@ -20,6 +20,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   componentProductListSubscription: Subscription;
   componentProductList: Product[];
+
   removeProductBtnVisible: boolean;
   bsModalRef: BsModalRef;
 
@@ -29,8 +30,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     fontawesome.library.add(faicons);
     fontawesome.library.add(faiconssolid);
 
-    this.componentProductListSubscription = this.prodService.getActiveProducts()
+    this.componentProductListSubscription = this.prodService.productList
         .subscribe(products => {this.componentProductList = products; });
+
     this.removeProductBtnVisible = false;
   }
 
@@ -110,9 +112,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public extractShoppingList() {
 
+    this.prodService.getNeededProducts();
+
     const initialState = {
       title: 'Shopping list',
-      neededProductList: this.prodService.getNeededProducts()
     };
 
     this.bsModalRef = this.modalService.show(ShoppingListComponent, Object.assign({initialState}, { class: 'gray modal-lg' }));
