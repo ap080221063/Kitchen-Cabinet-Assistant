@@ -1,35 +1,35 @@
 <div id="app-modal-content">  
   <div class="modal-header">
-    <h4 class="modal-title pull-left">{{title}}</h4>
+    <h4 class="modal-title pull-left">Product Details</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="container">
-      <div class="container" *ngIf="componentProduct">
+      <div class="container" *ngIf="product">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                     <label for="productname">Name</label>
-                    <input type="text" class="form-control" id="productname" aria-describedby="Name" placeholder="product name" [(ngModel)]="componentProduct.name">
+                    <input type="text" class="form-control" id="productname" aria-describedby="Name" placeholder="product name" [(ngModel)]="product.name">
                 </div>
                 <div class="form-group">
                     <label for="productcategory">Category</label>
                     <select id="productcategory" class="form-control">
                         <option *ngFor="let c of getCategoryList()" 
                         [value]="c.name" 
-                        [attr.selected]="c.id==componentProduct.category.id ? true : null">{{c.name}}</option>
+                        [attr.selected]="c.id==product.category.id ? true : null">{{c.name}}</option>
                     </select>
                 </div>
                 <div>
-                    <app-spinner (qtychanged)="qtychanged($event)" [label]="'Quantity'" [numb]="componentProduct.quantity" [other]="" [inputdisabled]="true"></app-spinner>   
+                    <app-spinner (qtychanged)="qtychanged($event)" [label]="'Quantity'" [numb]="product.quantity" [other]="" [inputdisabled]="true"></app-spinner>   
                 </div>
                 <div>                    
-                    <app-spinner [label]="'Shortage qty. warning'" [numb]="componentProduct.shortageQtyWarning" [other]="" [inputdisabled]="true"></app-spinner>
+                    <app-spinner [label]="'Shortage qty. warning'" [numb]="product.shortageQtyWarning" [other]="" [inputdisabled]="true"></app-spinner>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input cursorPointer" type="checkbox" id="activeCheckbox" [(ngModel)]="componentProduct.active">
+                    <input class="form-check-input cursorPointer" type="checkbox" id="activeCheckbox" [(ngModel)]="product.active">
                     <label class="form-check-label" for="activeCheckbox">
                         Active
                     </label>

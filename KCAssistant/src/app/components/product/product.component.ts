@@ -10,6 +10,7 @@ import { SpinnerComponent } from '../../components/shared/spinner/spinner.compon
 import { CategoryService } from '../../services/category.service';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ProductService } from '../../services/product.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-product',
@@ -18,9 +19,11 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductComponent implements OnInit {
 
-  componentProduct: Product;
+  productSubscription: Subscription;
+  product: Product;
+
   bsModalRef: BsModalRef;
-  componentTranslations: Translation[];
+  id: number;
   isnew: boolean;
 
   constructor(inbsmodalref: BsModalRef, public categoryService: CategoryService, public productService: ProductService) {
@@ -28,11 +31,16 @@ export class ProductComponent implements OnInit {
    }
 
   ngOnInit() {
-   // this.componentProduct = this.bsModalRef.content.product;
+    if (!this.isnew) {
+    this.productSubscription = this.productService.product
+        .subscribe(product => {this.product = product; });
+    } else {
+      this.product = new Product(0, '', new Category(), 0, 0);
+    }
   }
 
   public save() {
-    if (this.componentProduct.id = 0) {
+    if (this.isnew) {
       // save as new
     } else {
       // save existing
@@ -42,7 +50,7 @@ export class ProductComponent implements OnInit {
   }
 
   public delete() {
-    this.componentProduct.active = false;
+    this.product.active = false;
     this.productService.getActiveProducts();
     this.bsModalRef.hide();
   }
@@ -52,7 +60,7 @@ export class ProductComponent implements OnInit {
   }
 
   qtychanged(input: any) {
-    this.componentProduct.quantity = input.numb;
+    this.product.quantity = input.numb;
   }
 
 }

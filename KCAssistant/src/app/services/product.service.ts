@@ -11,6 +11,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ProductService {
 
+  public product = new Subject<Product>();
   public productList = new Subject<Product[]>();
   public neededProductsList = new Subject<Product[]>();
 
@@ -24,6 +25,11 @@ export class ProductService {
     this.http.get<any>(this.Server + 'productlist')
             .subscribe(data => this.productList.next(this.activeList(data)));
 
+  }
+
+  public getProduct(id: number): void {
+    this.http.get<any>(this.Server + 'product/' + id)
+            .subscribe(data => this.product.next(data));
   }
 
   public getAllProducts(): void {

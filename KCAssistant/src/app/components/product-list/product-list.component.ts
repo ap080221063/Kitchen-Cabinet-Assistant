@@ -83,12 +83,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public productDetails(prodId: number): void {
 
-    let componentProduct: Product;
-    componentProduct = this.componentProductList.find(y => y.id === prodId);
+    if (prodId !== 0) {
+      this.prodService.getProduct(prodId);
+    }
 
     const initialState = {
-      componentProduct: componentProduct,
-      title: componentProduct.name,
+      id: prodId,
       isnew: false,
     };
 
