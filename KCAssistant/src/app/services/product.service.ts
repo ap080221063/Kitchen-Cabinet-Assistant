@@ -48,6 +48,11 @@ export class ProductService {
     .subscribe(data => this.productList.next(this.addtoList(data, product)));
   }
 
+  public removeProduct(prodId: number): void {
+    this.http.post<any>(this.Server + 'productremove/' + prodId, '')
+            .subscribe(data => this.productList.next(data));
+  }
+
   public clearFilter() {
     this.getActiveProducts();
   }

@@ -74,7 +74,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   public removeProduct(prodId: number) {
-    this.componentProductList[this.componentProductList.findIndex(y => y.id === prodId)].active = false;
+    // this.componentProductList[this.componentProductList.findIndex(y => y.id === prodId)].active = false;
+    this.prodService.removeProduct(prodId);
     this.getProducts();
     // to aggressive to remove imediatly
     // componentProductListAux.splice(this.componentProductList.findIndex(y => y.id === prodId), 1);
