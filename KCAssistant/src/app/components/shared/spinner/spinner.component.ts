@@ -10,7 +10,7 @@ export class SpinnerComponent implements OnInit {
   @Input() label: string;
   @Input() inputdisabled: boolean;
   @Input() other: string;
-  @Output() qtychanged = new EventEmitter<any>(); // EventEmitter<number>();
+  @Output() spinnerchanged = new EventEmitter<any>(); // EventEmitter<number>();
 
   constructor() { }
 
@@ -21,7 +21,7 @@ export class SpinnerComponent implements OnInit {
     let n: number = this.numb;
     let o: string = this.other;
     n = n + 1;
-    this.qtychanged.emit({'numb': n, 'other': o});
+    this.spinnerchanged.emit({'numb': n, 'other': o});
   }
 
   public subtract() {
@@ -29,7 +29,7 @@ export class SpinnerComponent implements OnInit {
       let n: number = this.numb;
       let o: string = this.other;
       n = n - 1;
-      this.qtychanged.emit({'numb': n, 'other': o});
+      this.spinnerchanged.emit({'numb': n, 'other': o});
     }
   }
 

@@ -23,10 +23,12 @@
                     </select>
                 </div>
                 <div>
-                    <app-spinner (qtychanged)="qtychanged($event)" [label]="'Quantity'" [numb]="product.quantity" [other]="" [inputdisabled]="true"></app-spinner>   
+                    <app-spinner (spinnerchanged)="spinnerchanged($event)" [label]="'Quantity'" 
+                    [numb]="product.quantity"           [other]="'quantity'" [inputdisabled]="false"></app-spinner>   
                 </div>
                 <div>                    
-                    <app-spinner [label]="'Shortage qty. warning'" [numb]="product.shortageQtyWarning" [other]="" [inputdisabled]="true"></app-spinner>
+                    <app-spinner (spinnerchanged)="spinnerchanged($event)" [label]="'Shortage qty. warning'" 
+                    [numb]="product.shortageQtyWarning" [other]="'shortage'" [inputdisabled]="false"></app-spinner>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input cursorPointer" type="checkbox" id="activeCheckbox" [(ngModel)]="product.active">

@@ -40,12 +40,9 @@ export class ProductComponent implements OnInit {
   }
 
   public save() {
-    if (this.isnew) {
-      // save as new
-    } else {
-      // save existing
-    }
-    this.productService.getActiveProducts();
+    this.product.category.id = 1;
+    this.product.category.name = 'cat1';
+    this.productService.createProduct(this.product);
     this.bsModalRef.hide();
   }
 
@@ -59,8 +56,12 @@ export class ProductComponent implements OnInit {
     return this.categoryService.getAllCategories();
   }
 
-  qtychanged(input: any) {
-    this.product.quantity = input.numb;
+  spinnerchanged(input: any) {
+    if (input.other === 'quantity') {
+      this.product.quantity = input.numb;
+    } else {
+      this.product.shortageQtyWarning = input.numb;
+    }
   }
 
 }

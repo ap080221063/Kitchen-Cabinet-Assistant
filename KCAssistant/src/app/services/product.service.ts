@@ -32,10 +32,10 @@ export class ProductService {
             .subscribe(data => this.product.next(data));
   }
 
-  public getAllProducts(): void {
-    this.http.get<any>(this.Server + 'productlist')
-            .subscribe(data => this.productList.next(data));
-  }
+  // public getAllProducts(): void {
+  //   this.http.get<any>(this.Server + 'productlist')
+  //           .subscribe(data => this.productList.next(data));
+  // }
 
   public getNeededProducts(): void {
      this.http.get<any>(this.Server + 'productlist')
@@ -53,6 +53,11 @@ export class ProductService {
             .subscribe(data => this.productList.next(data));
   }
 
+  public createProduct(product: Product): void {
+    this.http.post<any>(this.Server + 'productsave/' + product.id, JSON.stringify(product))
+            .subscribe(data => this.productList.next(data));
+  }
+
   public clearFilter() {
     this.getActiveProducts();
   }
@@ -65,7 +70,7 @@ export class ProductService {
        productAuxList = new Array<Product>();
 
        this.http.get<any>(this.Server + 'productlist/filter/' + filter)
-        .subscribe(data => this.productList.next(data)); // .next(this.filteredList(data, filter))
+        .subscribe(data => this.productList.next(data));
     }
   }
 
