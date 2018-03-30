@@ -54,7 +54,10 @@ export class ProductService {
   }
 
   public createProduct(product: Product): void {
-    this.http.post<any>(this.Server + 'productsave/' + product.id, JSON.stringify(product))
+    // let jsonbodymsg: string;
+    // jsonbodymsg = JSON.stringify(product);
+    // jsonbodymsg.replace('gory":{"', 'gory":{"');
+    this.http.post<any>(this.Server + 'productsave/' + product.id, product)
             .subscribe(data => this.productList.next(data));
   }
 

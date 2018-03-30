@@ -1,15 +1,19 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var multer = require('multer');
 var filesystem = require('fs');
 var request = require('request');
 
 var app = express();
-app.use(bodyParser.json());
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
+var upload = multer();
 
 app.get('/product/:id', function(req, res) {
   var id = req.params.id;
@@ -101,9 +105,11 @@ app.post('/productremove/:id', function(req, res){
 
 });
 
-app.post('/productsave/:id', function(req, res){ 
+app.post('/productsave/:id', upload.array(), function(req, res){ 
   var id = req.params.id;
   
+  var body = req.body;
+
   var productdata;
   var lastId = 0;
 
