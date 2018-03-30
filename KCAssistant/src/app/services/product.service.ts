@@ -53,10 +53,7 @@ export class ProductService {
             .subscribe(data => this.productList.next(data));
   }
 
-  public createProduct(product: Product): void {
-    // let jsonbodymsg: string;
-    // jsonbodymsg = JSON.stringify(product);
-    // jsonbodymsg.replace('gory":{"', 'gory":{"');
+  public createUpdateProduct(product: Product): void {
     this.http.post<any>(this.Server + 'productsave/' + product.id, product)
             .subscribe(data => this.productList.next(data));
   }

@@ -42,7 +42,7 @@ export class ProductComponent implements OnInit {
   public save() {
     this.product.category.id = 1;
     this.product.category.name = 'cat1';
-    this.productService.createProduct(this.product);
+    this.productService.createUpdateProduct(this.product);
     this.bsModalRef.hide();
   }
 

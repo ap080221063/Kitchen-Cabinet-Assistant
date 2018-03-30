@@ -148,7 +148,10 @@ app.post('/productsave/:id', upload.array(), function(req, res){
       //get last id
       productdata.forEach(element => {
         if (id == element.id){
-          element = body;
+          element.name = body.name;
+          element.quantity = body.quantity;
+          element.category = body.category;
+          element.shortageQtyWarning = body.shortageQtyWarning;
         }
       });
       //save to file
