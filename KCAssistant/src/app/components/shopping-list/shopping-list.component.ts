@@ -29,20 +29,17 @@ export class ShoppingListComponent implements OnInit {
   }
 
   confirmShoppingListBuy(): void {
-
-    for (let p of this.neededProductList) {
-      this.prodService.addProduct(p);
-    }
-
+    this.prodService.productBulkAdd(this.neededProductList);
     this.bsModalRef.hide();
   }
 
-  qtychanged(input: any) {
-    for (let p of this.neededProductList) {
-      if (p.id === input.other) {
-        p.predictToBuy = input.numb;
+  spinnerchanged(input: any) {
+
+    this.neededProductList.forEach(element => {
+      if (input.other.id === element.id && input.other.prop === 'predictToBuy' ) {
+        element.predictToBuy = input.numb;
       }
-    }
+    });
   }
 
 }

@@ -16,19 +16,19 @@
                 </div>
                 <div class="form-group">
                     <label for="productcategory">Category</label>
-                    <select id="productcategory" class="form-control">
+                    <select id="productcategory" class="form-control" (change)="categorySelectChanged($event.target.value)">
                         <option *ngFor="let c of getCategoryList()" 
-                        [value]="c.name" 
+                        [value]="c.id" 
                         [attr.selected]="c.id==product.category.id ? true : null">{{c.name}}</option>
                     </select>
                 </div>
                 <div>
                     <app-spinner (spinnerchanged)="spinnerchanged($event)" [label]="'Quantity'" 
-                    [numb]="product.quantity"           [other]="'quantity'" [inputdisabled]="false"></app-spinner>   
+                    [numb]="product.quantity"           [other]="'quantity'" [inputdisabled]="true"></app-spinner>   
                 </div>
                 <div>                    
                     <app-spinner (spinnerchanged)="spinnerchanged($event)" [label]="'Shortage qty. warning'" 
-                    [numb]="product.shortageQtyWarning" [other]="'shortage'" [inputdisabled]="false"></app-spinner>
+                    [numb]="product.shortageQtyWarning" [other]="'shortage'" [inputdisabled]="true"></app-spinner>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input cursorPointer" type="checkbox" id="activeCheckbox" [(ngModel)]="product.active">

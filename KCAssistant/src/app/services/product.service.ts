@@ -43,9 +43,9 @@ export class ProductService {
 
   }
 
-  public addProduct(product: Product): void {
-    this.http.get<any>(this.Server + 'productlist')
-    .subscribe(data => this.productList.next(this.addtoList(data, product)));
+  public productBulkAdd(productsToAddList: Product[]): void {
+    this.http.post<any>(this.Server + 'productsbulksave', productsToAddList)
+    .subscribe(data => this.productList.next(data));
   }
 
   public removeProduct(prodId: number): void {

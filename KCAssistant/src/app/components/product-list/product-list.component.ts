@@ -103,6 +103,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
             iterProduct.quantity = iterProduct.quantity - 1;
           }
         }
+        this.prodService.createUpdateProduct(iterProduct);
       }
     }
   }

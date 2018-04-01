@@ -111,6 +111,7 @@ app.post('/productsave/:id', upload.array(), function(req, res){
   var body = req.body;
 
   var productdata;
+  var productDataRes = [];
   var lastId = 0;
 
   if (id==0) {
@@ -135,7 +136,12 @@ app.post('/productsave/:id', upload.array(), function(req, res){
           if (err) throw err;
           console.log('file saved');
 
-          res.send(productdata);
+          productdata.forEach(element => {
+            if(element.active === true){
+              productDataRes.push(element);
+            }
+          });
+          res.send(productDataRes);
       });
     });
   }else{
@@ -159,11 +165,54 @@ app.post('/productsave/:id', upload.array(), function(req, res){
           if (err) throw err;
           console.log('file saved');
 
-          res.send(productdata);
+          productdata.forEach(element => {
+            if(element.active === true){
+              productDataRes.push(element);
+            }
+          });
+          res.send(productDataRes);
       });
     });
   }
 });
+
+app.post('/productsbulksave/', upload.array(), function(req, res){ 
+ 
+  var body = req.body;
+
+  var productdata;
+  var productDataRes = [];
+
+  console.log('save new');
+  filesystem.readFile('AuxiliaryFiles/data.json', 'utf8', function (err, data) {
+    if (err) throw err;
+
+    //parse data on file
+    productdata = JSON.parse(data);
+    //get last id
+    productdata.forEach(prdl => {
+      body.forEach(ndl => {
+        if (prdl.id == ndl.id){
+          prdl.quantity = prdl.quantity + ndl.predictToBuy;
+        }
+      })
+    });
+
+    //save to file
+    filesystem.writeFile ('AuxiliaryFiles/data.json', JSON.stringify(productdata), function(err) {
+        if (err) throw err;
+        console.log('file saved');
+
+        productdata.forEach(element => {
+          if(element.active === true){
+            productDataRes.push(element);
+          }
+        });
+        res.send(productDataRes);
+    });
+  });
+});
+
 
 app.listen(8081, function() {
   console.log('server online');

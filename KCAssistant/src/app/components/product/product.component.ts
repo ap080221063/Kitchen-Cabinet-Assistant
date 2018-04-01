@@ -36,19 +36,18 @@ export class ProductComponent implements OnInit {
         .subscribe(product => {this.product = product; });
     } else {
       this.product = new Product(0, '', new Category(), 0, 0);
+      this.product.category.id = 1;
+      this.product.category.name = 'Cat1';
     }
   }
 
   public save() {
-    this.product.category.id = 1;
-    this.product.category.name = 'cat1';
     this.productService.createUpdateProduct(this.product);
     this.bsModalRef.hide();
   }
 
   public delete() {
-    this.product.active = false;
-    this.productService.getActiveProducts();
+    this.productService.removeProduct(this.product.id);
     this.bsModalRef.hide();
   }
 
@@ -62,6 +61,10 @@ export class ProductComponent implements OnInit {
     } else {
       this.product.shortageQtyWarning = input.numb;
     }
+  }
+
+  categorySelectChanged(input: any) {
+    this.product.category.id = input;
   }
 
 }
