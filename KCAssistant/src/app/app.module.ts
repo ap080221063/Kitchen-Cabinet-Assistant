@@ -7,7 +7,7 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
 import { CategoryService } from './services/category.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -27,6 +27,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     BrowserModule,
     ModalModule.forRoot(),
     FormsModule,
+    ReactiveFormsModule,
     ButtonsModule.forRoot(),
     HttpClientModule
   ],

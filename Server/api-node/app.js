@@ -129,6 +129,14 @@ app.post('/productsave/:id', upload.array(), function(req, res){
       });
       //give lastid+1 to new product
       body.id = lastId+1;
+
+      //save image in image folder
+      require("fs").writeFile("Auxiliaryfolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
+        console.log(err);
+      });
+      //delete body.imgUrl.value
+      body.imgUrl.value = '';
+      
       //add new product to array
       productdata.push(body);
       //save to file
@@ -158,6 +166,14 @@ app.post('/productsave/:id', upload.array(), function(req, res){
           element.quantity = body.quantity;
           element.category = body.category;
           element.shortageQtyWarning = body.shortageQtyWarning;
+
+          //save image in image folder
+          require("fs").writeFile("Auxiliaryfolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
+            console.log(err);
+          });
+          //delete body.imgUrl.value
+          body.imgUrl.value = '';
+          element.imgUrl = body.imgUrl;
         }
       });
       //save to file

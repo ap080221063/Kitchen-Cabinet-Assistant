@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Product } from '../../classes/product';
 import { Category } from '../../classes/productCategory';
 import { Translation } from '../../classes/translation';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SpinnerComponent } from '../../components/shared/spinner/spinner.component';
 import { CategoryService } from '../../services/category.service';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
@@ -19,6 +19,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ProductComponent implements OnInit {
 
+  @ViewChild('fileInput') fileInput: ElementRef;
+
   productSubscription: Subscription;
   product: Product;
 
@@ -26,7 +28,9 @@ export class ProductComponent implements OnInit {
   id: number;
   isnew: boolean;
 
-  constructor(inbsmodalref: BsModalRef, public categoryService: CategoryService, public productService: ProductService) {
+  constructor(inbsmodalref: BsModalRef,
+              public categoryService: CategoryService,
+              public productService: ProductService) {
     this.bsModalRef = inbsmodalref;
    }
 
@@ -38,6 +42,7 @@ export class ProductComponent implements OnInit {
       this.product = new Product(0, '', new Category(), 0, 0);
       this.product.category.id = 1;
       this.product.category.name = 'Cat1';
+      this.product.imgUrl = '';
     }
   }
 
@@ -65,6 +70,17 @@ export class ProductComponent implements OnInit {
 
   categorySelectChanged(input: any) {
     this.product.category.id = input;
+  }
+
+  onFileChange(event) {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.product.imgUrl = {'filename': file.name, 'filetype': file.type, 'value': reader.result.split(',')[1] };
+      };
+    }
   }
 
 }
