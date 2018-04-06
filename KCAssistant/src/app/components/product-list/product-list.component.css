@@ -82,3 +82,8 @@
     font-size: 25px;
     font-family: cursive;
 }
+
+.card-header-override{
+    overflow: hidden;
+    padding: 0;
+}

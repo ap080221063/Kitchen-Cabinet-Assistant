@@ -72,6 +72,18 @@ app.get('/productlist/filter/:filterparam', function(req, res) {
     });
 });
 
+app.get('/images/:imgname', function(req, res) {
+  
+  var imgnameparam = req.params.imgname;
+  
+  console.log('get image: '+imgnameparam);
+  filesystem.readFile('AuxiliaryFolder/ProductImages/'+imgnameparam, 
+  function(err, data) {   
+    res.send(data);
+  });
+
+});
+
 app.post('/productremove/:id', function(req, res){ 
   var id = req.params.id;
 

@@ -34,7 +34,8 @@
                   (click)="removeProduct(p.id)"><i class="far fa-trash-alt"></i></button>
               </div> 
             </div>
-            <div class="card-body">
+            <div class="card-body card-header-override">
+              <img class="productimage" src="http://localhost:8081/images/{{p.imgUrl.filename}}" width="286" height="286" />
             </div>
             <div class="card-footer">
               <div class="buttonDivFloatLeft" style="width:33%; text-align:left;">
