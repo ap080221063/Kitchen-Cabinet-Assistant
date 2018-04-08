@@ -7,7 +7,7 @@ export class Product {
     quantity: number;
     shortageQtyWarning: number;
     active: boolean;
-    imgUrl:  string|any; // string; works ok 
+    imgUrl:  string|any;
     predictToBuy: number;
 
     constructor(id: number, name: string, category: Category, quantity: number, shortageQtyWarning: number) {

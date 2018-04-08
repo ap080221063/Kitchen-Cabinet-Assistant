@@ -5,8 +5,8 @@ var filesystem = require('fs');
 var request = require('request');
 
 var app = express();
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json({limit: '50mb'}));
+  app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
   app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -46,6 +46,17 @@ app.get('/productlist', function(req, res) {
     function(err, data) {
       productdata = JSON.parse(data);
       res.send(productdata);
+    });
+});
+
+app.get('/categorylist', function(req, res) {
+  console.log('categorylist');
+
+  var categorydata;
+   filesystem.readFile('AuxiliaryFiles/categories.json', 
+    function(err, data) {
+      categorydata = JSON.parse(data);
+      res.send(categorydata);
     });
 });
 
@@ -179,12 +190,15 @@ app.post('/productsave/:id', upload.array(), function(req, res){
           element.category = body.category;
           element.shortageQtyWarning = body.shortageQtyWarning;
 
-          //save image in image folder
-          require("fs").writeFile("Auxiliaryfolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
-            console.log(err);
-          });
-          //delete body.imgUrl.value
-          body.imgUrl.value = '';
+          if(body.imgUrl.value != ''){
+            //save image in image folder
+            require("fs").writeFile("Auxiliaryfolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
+              console.log(err);
+            });
+            //delete body.imgUrl.value
+            body.imgUrl.value = '';
+          }
+
           element.imgUrl = body.imgUrl;
         }
       });

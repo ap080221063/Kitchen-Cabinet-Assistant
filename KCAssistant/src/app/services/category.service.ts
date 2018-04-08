@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Category } from '../classes/productCategory';
-import { MOCK_PRODUCTS } from '../classes/mock-products';
-import { MOCK_Categories } from '../classes/mock-categories';
-// to be removed, testing purpose only
+// import { MOCK_PRODUCTS } from '../classes/mock-products';
+// import { MOCK_Categories } from '../classes/mock-categories';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import { of } from 'rxjs/observable/of';
+import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 
 @Injectable()
 export class CategoryService {
 
-  constructor() { }
+  public categoryList = new Subject<Category[]>();
+  public Server = 'http://localhost:8081/';
 
-  public getAllCategories(): Category[] {
-    let categorylist: Category[];
-    categorylist = new Array<Category>();
+  constructor(private http: HttpClient) { }
 
-    for (const p of MOCK_Categories) {
-      categorylist.push(p);
-    }
+  public getAllCategories(): void {
+    this.http.get<any>(this.Server + 'categorylist')
+            .subscribe(data => this.categoryList.next(data));
 
-    return categorylist;
   }
 
 }

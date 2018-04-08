@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Product } from '../../classes/product';
 import { Category } from '../../classes/productCategory';
 import { Translation } from '../../classes/translation';
@@ -17,12 +17,15 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
   productSubscription: Subscription;
   product: Product;
+
+  categoryListSubscription: Subscription;
+  categoryList: Category[];
 
   bsModalRef: BsModalRef;
   id: number;
@@ -31,20 +34,32 @@ export class ProductComponent implements OnInit {
   constructor(inbsmodalref: BsModalRef,
               public categoryService: CategoryService,
               public productService: ProductService) {
+
+    this.categoryListSubscription = this.categoryService.categoryList
+    .subscribe(categories => {this.categoryList = categories; });
+
     this.bsModalRef = inbsmodalref;
    }
 
   ngOnInit() {
+
+    this.categoryService.getAllCategories();
+
     if (!this.isnew) {
     this.productSubscription = this.productService.product
         .subscribe(product => {this.product = product; });
     } else {
       this.product = new Product(0, '', new Category(), 0, 0);
       this.product.category.id = 1;
-      this.product.category.name = 'Cat1';
+      // this.product.category.name = 'Cat1';
       this.product.imgUrl = '';
     }
   }
+
+  ngOnDestroy() {
+  // unsubscribe to ensure no memory leaks
+     this.categoryListSubscription.unsubscribe();
+   }
 
   public save() {
     this.productService.createUpdateProduct(this.product);
@@ -56,9 +71,9 @@ export class ProductComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
-  public getCategoryList(): Category[] {
-    return this.categoryService.getAllCategories();
-  }
+  // public getcategoryList(): Category[] {
+  //   return this.categoryService.getAllCategories();
+  // }
 
   spinnerchanged(input: any) {
     if (input.other === 'quantity') {

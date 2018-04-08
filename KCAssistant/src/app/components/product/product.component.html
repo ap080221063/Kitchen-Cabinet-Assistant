@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <label for="productcategory">Category</label>
                         <select id="productcategory" class="form-control" (change)="categorySelectChanged($event.target.value)">
-                            <option *ngFor="let c of getCategoryList()" 
+                            <option *ngFor="let c of categoryList" 
                             [value]="c.id" 
                             [attr.selected]="c.id==product.category.id ? true : null">{{c.name}}</option>
                         </select>
