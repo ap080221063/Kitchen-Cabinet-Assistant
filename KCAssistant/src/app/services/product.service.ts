@@ -74,6 +74,10 @@ export class ProductService {
     }
   }
 
+  public sendShoppingListEmail(productsToAddList: Product[]): void {
+    this.http.post<any>(this.Server + 'sendshoppinglist', productsToAddList).subscribe();
+  }
+
   // private auxiliary methods
 
   private activeList(pArray: Array<Product>): Array<Product> {

@@ -255,6 +255,43 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
   });
 });
 
+app.post('/sendshoppinglist/', upload.array(), function(req, res){
+
+  var body = req.body;
+  var datetosend = new Date();
+  var datetosendText = (datetosend.getDate() + '-' + (datetosend.getMonth()+1) + '-' + datetosend.getFullYear());
+
+  var productListToSend = 'Product List: \n';
+
+  body.forEach(function(item){
+    productListToSend += item.name + ' -> ' + item.predictToBuy + '\n'; 
+  });
+
+  console.log('before send');
+
+  var send = require('gmail-send')({
+    //var send = require('../index.js')({
+      user: '<>',
+      // user: credentials.user,                  // Your GMail account used to send emails
+      pass: '<>',
+      // pass: credentials.pass,                  // Application-specific password
+      to:   '<>',
+      // to:   credentials.user,                  // Send to yourself
+                                               // you also may set array of recipients:
+                                               // [ 'user1@gmail.com', 'user2@gmail.com' ]
+      // from:    credentials.user,            // from: by default equals to user
+      // replyTo: credentials.user,            // replyTo: by default undefined
+      // bcc: 'some-user@mail.com',            // almost any option of `nodemailer` will be passed to it
+      subject: 'Lista de compras (' + datetosendText +')',
+      text:    productListToSend,         // Plain text
+      //html:    '<b>html text</b>'            // HTML
+    });
+
+    send();
+
+    console.log('after send');
+
+});
 
 app.listen(8081, function() {
   console.log('server online');

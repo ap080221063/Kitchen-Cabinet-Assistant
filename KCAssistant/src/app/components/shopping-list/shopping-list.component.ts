@@ -33,6 +33,10 @@ export class ShoppingListComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
+  sendShoppingListEmail(): void {
+    this.prodService.sendShoppingListEmail(this.neededProductList);
+  }
+
   spinnerchanged(input: any) {
 
     this.neededProductList.forEach(element => {
