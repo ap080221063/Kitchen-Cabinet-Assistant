@@ -11,7 +11,7 @@ import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from
 export class CategoryService {
 
   public categoryList = new Subject<Category[]>();
-  public Server = 'http://localhost:8081/';
+  public Server = 'http://192.168.1.66:8081/';
 
   constructor(private http: HttpClient) { }
 

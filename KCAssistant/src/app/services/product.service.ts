@@ -17,7 +17,7 @@ export class ProductService {
 
   private localList: Array<Product>;
 
-  public Server = 'http://localhost:8081/';
+  public Server = 'http://192.168.1.66:8081/';
 
   constructor(private http: HttpClient) { }
 
