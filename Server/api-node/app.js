@@ -15,6 +15,9 @@ var app = express();
 
 var upload = multer();
 
+var serverurl = 'http://192.168.1.66';
+var serverport = ':8081';
+
 app.get('/product/:id', function(req, res) {
   var id = req.params.id;
 
@@ -104,7 +107,7 @@ app.post('/productremove/:id', function(req, res){
   var productdatatosend = [];
 
   filesystem.readFile('AuxiliaryFiles/data.json', 'utf8', function (err, data) {
-      if (err) throw err;
+      if (err) console.log(err);
 
       productdata = JSON.parse(data);
 
@@ -119,7 +122,7 @@ app.post('/productremove/:id', function(req, res){
       });
       
       filesystem.writeFile ('AuxiliaryFiles/data.json', JSON.stringify(productdata), function(err) {
-          if (err) throw err;
+          if (err) console.log(err);
           console.log('file saved');
 
           res.send(productdatatosend);
@@ -140,7 +143,7 @@ app.post('/productsave/:id', upload.array(), function(req, res){
   if (id==0) {
     console.log('save new');
     filesystem.readFile('AuxiliaryFiles/data.json', 'utf8', function (err, data) {
-      if (err) throw err;
+      if (err) console.log(err);
 
       //parse data on file
       productdata = JSON.parse(data);
@@ -159,12 +162,12 @@ app.post('/productsave/:id', upload.array(), function(req, res){
       });
       //delete body.imgUrl.value
       body.imgUrl.value = '';
-      
+      body.imgUrl.filename = serverurl+serverport+'/images/'+ body.imgUrl.filename;
       //add new product to array
       productdata.push(body);
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/data.json', JSON.stringify(productdata), function(err) {
-          if (err) throw err;
+          if (err) console.log(err);
           console.log('file saved');
 
           productdata.forEach(element => {
@@ -178,7 +181,7 @@ app.post('/productsave/:id', upload.array(), function(req, res){
   }else{
     console.log('update existing with id: '+id);
     filesystem.readFile('AuxiliaryFiles/data.json', 'utf8', function (err, data) {
-      if (err) throw err;
+      if (err) console.log(err);
 
       //parse data on file
       productdata = JSON.parse(data);
@@ -192,11 +195,12 @@ app.post('/productsave/:id', upload.array(), function(req, res){
 
           if(body.imgUrl.value != ''){
             //save image in image folder
-            require("fs").writeFile("Auxiliaryfolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
+            require("fs").writeFile("Auxiliaryfolder/ProductImages/" + body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
               console.log(err);
             });
             //delete body.imgUrl.value
             body.imgUrl.value = '';
+            body.imgUrl.filename = serverurl+serverport+'/images/' + body.imgUrl.filename;
           }
 
           element.imgUrl = body.imgUrl;
@@ -204,7 +208,7 @@ app.post('/productsave/:id', upload.array(), function(req, res){
       });
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/data.json', JSON.stringify(productdata), function(err) {
-          if (err) throw err;
+          if (err) console.log(err);
           console.log('file saved');
 
           productdata.forEach(element => {
@@ -227,7 +231,7 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
 
   console.log('save new');
   filesystem.readFile('AuxiliaryFiles/data.json', 'utf8', function (err, data) {
-    if (err) throw err;
+    if (err) console.log(err);
 
     //parse data on file
     productdata = JSON.parse(data);
@@ -242,7 +246,7 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
 
     //save to file
     filesystem.writeFile ('AuxiliaryFiles/data.json', JSON.stringify(productdata), function(err) {
-        if (err) throw err;
+        if (err) console.log(err);
         console.log('file saved');
 
         productdata.forEach(element => {
