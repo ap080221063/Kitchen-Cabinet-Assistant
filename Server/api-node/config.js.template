@@ -1,0 +1,11 @@
+//remove .template extension of this file.
+
+var config = {};
+
+config.url             = 'https://localhost';
+config.port            = '8081';
+config.gmailuser       = 'an@email.com';
+config.gmailpassword   = 'apassword';
+config.emailrecipients = 'recipientA@email.com, recipientB@email.com';
+
+module.exports = config;

@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Category } from '../classes/productCategory';
-// import { MOCK_PRODUCTS } from '../classes/mock-products';
-// import { MOCK_Categories } from '../classes/mock-categories';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { config } from '../../environments/environment';
 
 @Injectable()
 export class CategoryService {
 
   public categoryList = new Subject<Category[]>();
-  public Server = 'http://192.168.1.66:8081/';
+  public Server = config.serverurl + ':' + config.serverport + '/';
 
   constructor(private http: HttpClient) { }
 

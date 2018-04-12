@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../classes/product';
-// import { MOCK_PRODUCTS } from '../classes/mock-products';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
-
 import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import 'rxjs/add/operator/map';
+import { config } from '../../environments/environment';
 
 @Injectable()
 export class ProductService {
@@ -17,7 +16,7 @@ export class ProductService {
 
   private localList: Array<Product>;
 
-  public Server = 'http://192.168.1.66:8081/';
+  public Server = config.serverurl + ':' + config.serverport + '/';
 
   constructor(private http: HttpClient) { }
 
@@ -31,11 +30,6 @@ export class ProductService {
     this.http.get<any>(this.Server + 'product/' + id)
             .subscribe(data => this.product.next(data));
   }
-
-  // public getAllProducts(): void {
-  //   this.http.get<any>(this.Server + 'productlist')
-  //           .subscribe(data => this.productList.next(data));
-  // }
 
   public getNeededProducts(): void {
      this.http.get<any>(this.Server + 'productlist')

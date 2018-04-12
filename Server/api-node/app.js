@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var filesystem = require('fs');
 var request = require('request');
+var config = require('./config');
 
 var app = express();
   app.use(bodyParser.json({limit: '50mb'}));
@@ -11,12 +12,9 @@ var app = express();
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
-
+});
+    
 var upload = multer();
-
-var serverurl = 'http://192.168.1.66';
-var serverport = ':8081';
 
 app.get('/product/:id', function(req, res) {
   var id = req.params.id;
@@ -26,7 +24,7 @@ app.get('/product/:id', function(req, res) {
   var productdata;
   var product;
   //get product data by id
-   filesystem.readFile('AuxiliaryFiles/data.json', 
+    filesystem.readFile('AuxiliaryFiles/data.json', 
     function(err, data) {
       productdata = JSON.parse(data);
 
@@ -45,7 +43,7 @@ app.get('/productlist', function(req, res) {
 
   var productdata;
   //get product data by id
-   filesystem.readFile('AuxiliaryFiles/data.json', 
+    filesystem.readFile('AuxiliaryFiles/data.json', 
     function(err, data) {
       productdata = JSON.parse(data);
       res.send(productdata);
@@ -56,7 +54,7 @@ app.get('/categorylist', function(req, res) {
   console.log('categorylist');
 
   var categorydata;
-   filesystem.readFile('AuxiliaryFiles/categories.json', 
+    filesystem.readFile('AuxiliaryFiles/categories.json', 
     function(err, data) {
       categorydata = JSON.parse(data);
       res.send(categorydata);
@@ -72,7 +70,7 @@ app.get('/productlist/filter/:filterparam', function(req, res) {
   var productdata;
   var productlisttosend = [];
   //get product data by id
-   filesystem.readFile('AuxiliaryFiles/data.json', 
+    filesystem.readFile('AuxiliaryFiles/data.json', 
     function(err, data) {
       productdata = JSON.parse(data);
       
@@ -158,11 +156,11 @@ app.post('/productsave/:id', upload.array(), function(req, res){
 
       //save image in image folder
       require("fs").writeFile("Auxiliaryfolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
-        console.log(err);
+        if (err) console.log(err);
       });
       //delete body.imgUrl.value
       body.imgUrl.value = '';
-      body.imgUrl.filename = serverurl+serverport+'/images/'+ body.imgUrl.filename;
+      body.imgUrl.filename = /*config.url+':'+config.port+*/'images/'+ body.imgUrl.filename;
       //add new product to array
       productdata.push(body);
       //save to file
@@ -196,11 +194,11 @@ app.post('/productsave/:id', upload.array(), function(req, res){
           if(body.imgUrl.value != ''){
             //save image in image folder
             require("fs").writeFile("Auxiliaryfolder/ProductImages/" + body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
-              console.log(err);
+              if (err) console.log(err);
             });
             //delete body.imgUrl.value
             body.imgUrl.value = '';
-            body.imgUrl.filename = serverurl+serverport+'/images/' + body.imgUrl.filename;
+            body.imgUrl.filename = /*config.url+':'+config.port+*/'images/' + body.imgUrl.filename;
           }
 
           element.imgUrl = body.imgUrl;
@@ -223,7 +221,7 @@ app.post('/productsave/:id', upload.array(), function(req, res){
 });
 
 app.post('/productsbulksave/', upload.array(), function(req, res){ 
- 
+  
   var body = req.body;
 
   var productdata;
@@ -274,20 +272,11 @@ app.post('/sendshoppinglist/', upload.array(), function(req, res){
   console.log('before send');
 
   var send = require('gmail-send')({
-    //var send = require('../index.js')({
-      user: '<>',
-      // user: credentials.user,                  // Your GMail account used to send emails
-      pass: '<>',
-      // pass: credentials.pass,                  // Application-specific password
-      to:   '<>',
-      // to:   credentials.user,                  // Send to yourself
-                                               // you also may set array of recipients:
-                                               // [ 'user1@gmail.com', 'user2@gmail.com' ]
-      // from:    credentials.user,            // from: by default equals to user
-      // replyTo: credentials.user,            // replyTo: by default undefined
-      // bcc: 'some-user@mail.com',            // almost any option of `nodemailer` will be passed to it
+      user: config.gmailuser,
+      pass: config.gmailpassword,
+      to:   config.emailrecipients,
       subject: 'Lista de compras (' + datetosendText +')',
-      text:    productListToSend,         // Plain text
+      text:    productListToSend,
       //html:    '<b>html text</b>'            // HTML
     });
 
@@ -297,7 +286,8 @@ app.post('/sendshoppinglist/', upload.array(), function(req, res){
 
 });
 
-app.listen(8081, function() {
+app.listen(config.port, function() {
   console.log('server online');
-  console.log('port: 8081');
+  console.log('port: '+ config.port);
 });
+

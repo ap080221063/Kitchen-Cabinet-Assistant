@@ -10,6 +10,7 @@ import fontawesome from '@fortawesome/fontawesome';
 import faicons from '@fortawesome/fontawesome-free-regular/';
 import faiconssolid from '@fortawesome/fontawesome-free-solid/';
 import { ShoppingListComponent } from '../shopping-list/shopping-list.component';
+import { config } from '../../../environments/environment';
 
 @Component({
   selector: 'app-product-list',
@@ -17,6 +18,8 @@ import { ShoppingListComponent } from '../shopping-list/shopping-list.component'
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit, OnDestroy {
+
+  public Server = config.serverurl + ':' + config.serverport + '/';
 
   componentProductListSubscription: Subscription;
   componentProductList: Product[];
