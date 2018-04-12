@@ -13,6 +13,7 @@ import { SpinnerComponent } from './components/shared/spinner/spinner.component'
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { SettingsComponent } from './components/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     ProductComponent,
     ProductListComponent,
     SpinnerComponent,
-    ShoppingListComponent
+    ShoppingListComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
