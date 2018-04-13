@@ -4,6 +4,7 @@ import { ProductService } from '../../services/product.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ProductComponent } from '../product/product.component';
+import { SettingsComponent } from '../settings/settings.component';
 import { Category } from '../../classes/productCategory';
 import { Subscription } from 'rxjs/Subscription';
 import fontawesome from '@fortawesome/fontawesome';
@@ -121,6 +122,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.bsModalRef = this.modalService.show(ShoppingListComponent, Object.assign({initialState}, { class: 'gray modal-lg' }));
 
+  }
+
+  public settings() {
+
+    const initialState = {
+      title: 'Settings',
+    };
+
+    this.bsModalRef = this.modalService.show(SettingsComponent, Object.assign({initialState}, { class: 'gray modal-lg' }));
   }
 
 }

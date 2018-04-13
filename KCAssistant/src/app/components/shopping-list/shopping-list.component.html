@@ -26,11 +26,16 @@
                       <app-spinner (spinnerchanged)="spinnerchanged($event)" [label]="" 
                       [numb]="p.predictToBuy" [other]="{id:p.id, prop:'predictToBuy'}" [inputdisabled]="true"></app-spinner>
                     </td>
+                  </tr>
+                  <tr *ngIf="neededProductList.length===0">
+                    <th scope="row"></th>
+                    <td>No products are needed at this moment.</td>
+                    <td></td>
                   </tr>                 
                 </tbody>
               </table>
               <div class="col-xs-6">
-                <button type="button" class="btn btn-primary buttonsFloatLeft" (click)="sendShoppingListEmail()"><i class="fas fa-file-pdf"></i></button>
+                <button type="button" class="btn btn-primary buttonsFloatLeft" (click)="sendShoppingListEmail()"><i class="fas fa-envelope"></i></button>
                 <button type="button" class="btn btn-primary btn-success buttonsFloatRight" (click)="confirmShoppingListBuy()"><i class="fas fa-cart-plus"></i></button>               
               </div>    
             </div>

@@ -16,6 +16,7 @@ var app = express();
     
 var upload = multer();
 
+//products-------------------------------------------------------------------------
 app.get('/product/:id', function(req, res) {
   var id = req.params.id;
 
@@ -47,17 +48,6 @@ app.get('/productlist', function(req, res) {
     function(err, data) {
       productdata = JSON.parse(data);
       res.send(productdata);
-    });
-});
-
-app.get('/categorylist', function(req, res) {
-  console.log('category list request');
-
-  var categorydata;
-    filesystem.readFile('AuxiliaryFiles/categories.json', 
-    function(err, data) {
-      categorydata = JSON.parse(data);
-      res.send(categorydata);
     });
 });
 
@@ -260,29 +250,16 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
   });
 });
 
-app.post('/sendshoppinglist/', upload.array(), function(req, res){
+//categories-----------------------------------------------------------------------
+app.get('/categorylist', function(req, res) {
+  console.log('category list request');
 
-  var body = req.body;
-  var datetosend = new Date();
-  var datetosendText = (datetosend.getDate() + '-' + (datetosend.getMonth()+1) + '-' + datetosend.getFullYear());
-
-  var productListToSend = 'Product List: \n';
-
-  body.forEach(function(item){
-    productListToSend += item.name + ' -> ' + item.predictToBuy + '\n'; 
-  });
-
-  var send = require('gmail-send')({
-      user: config.gmailuser,
-      pass: config.gmailpassword,
-      to:   config.emailrecipients,
-      subject: 'Lista de compras (' + datetosendText +')',
-      text:    productListToSend,
-      //html:    '<b>html text</b>'            // HTML
+  var categorydata;
+    filesystem.readFile('AuxiliaryFiles/categories.json', 
+    function(err, data) {
+      categorydata = JSON.parse(data);
+      res.send(categorydata);
     });
-
-    send();
-
 });
 
 app.post('/categoryremove/:id', function(req, res){
@@ -387,6 +364,32 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
       });
     });
   }
+});
+
+//other----------------------------------------------------------------------------
+app.post('/sendshoppinglist/', upload.array(), function(req, res){
+
+  var body = req.body;
+  var datetosend = new Date();
+  var datetosendText = (datetosend.getDate() + '-' + (datetosend.getMonth()+1) + '-' + datetosend.getFullYear());
+
+  var productListToSend = 'Product List: \n';
+
+  body.forEach(function(item){
+    productListToSend += item.name + ' -> ' + item.predictToBuy + '\n'; 
+  });
+
+  var send = require('gmail-send')({
+      user: config.gmailuser,
+      pass: config.gmailpassword,
+      to:   config.emailrecipients,
+      subject: 'Lista de compras (' + datetosendText +')',
+      text:    productListToSend,
+      //html:    '<b>html text</b>'            // HTML
+    });
+
+    send();
+
 });
 
 app.listen(config.port, function() {

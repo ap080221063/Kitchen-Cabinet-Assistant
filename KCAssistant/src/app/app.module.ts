@@ -7,6 +7,7 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
 import { CategoryService } from './services/category.service';
+import { EmailService } from './services/email.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SpinnerComponent } from './components/shared/spinner/spinner.component';
@@ -23,7 +24,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     ProductListComponent,
     SpinnerComponent,
     ShoppingListComponent,
-    SettingsComponent
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,13 +37,15 @@ import { SettingsComponent } from './components/settings/settings.component';
   providers: [
     ProductService,
     CategoryService,
+    EmailService,
     HttpClientModule,
     HttpClient
   ],
   bootstrap: [AppComponent],
   entryComponents: [
      ProductComponent,
-     ShoppingListComponent
+     ShoppingListComponent,
+     SettingsComponent
   ]
 })
 export class AppModule { }

@@ -1,0 +1,36 @@
+.categorylistoutercomponent{
+    height: 300px;
+    overflow: auto;
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+.centeraligntext{
+    text-align: center;
+}
+
+.cursorPointer{
+    cursor: pointer;
+}
+
+.inlineCategoryBtn{
+    width: 25px;
+    height: 25px;
+    line-height: 10px;
+    font-size: 12px;
+    text-align: center;
+    padding: 0px;
+}
+
+.spacingtop{
+    padding-top:10px;
+}
+
+.disabledColor{
+    color: darkgrey;
+}
+
+.insertrow{
+    background-color: white !important;
+    line-height: 35px !important;
+}

@@ -1,3 +1,108 @@
-<p>
-  settings works!
-</p>
+<div id="app-modal-content">  
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <div class="row">
+                <h5>Categories</h5>
+              </div>
+              <div class="row">
+                <div class="categorylistoutercomponent">
+                  <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col">Name</th>
+                          <th scope="col">Active</th>
+                          <th scope="col">Remove</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let p of categoryList">
+                          <th scope="row">{{ p.name }}</th>
+                          <td>
+                            <div class="form-check">
+                              <i class="far fa-check-square cursorPointer" *ngIf="p.active" (click)="changeState(p.id)"></i>
+                              <i class="far fa-square cursorPointer" *ngIf="!p.active" (click)="changeState(p.id)"></i>
+                            </div>
+                          </td>
+                          <td class="centeraligntext">
+                            <button type="button" class="btn btn-xs btn-danger buttonDivFloatRight thickerFont inlineCategoryBtn" (click)="removeCategory(p.id)">
+                              <i class="far fa-trash-alt"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        <tr class="insertrow">
+                          <th scope="row"><input type="text" class="form-control" id="categoryname" aria-describedby="Name" placeholder="category name" [(ngModel)]="newCategory.name"></th>
+                          <td>
+                            <div class="form-check disabledColor">
+                              <i class="far fa-check-square cursorPointer"></i>
+                            </div>
+                          </td>
+                          <td class="centeraligntext ">
+                            <button type="button" class="btn btn-xs btn-success buttonDivFloatRight thickerFont inlineCategoryBtn" (click)="addCategory()">
+                              <i class="far fa-plus-square"></i>
+                            </button>
+                          </td>
+                        </tr> 
+                        <tr *ngIf="categoryList.length===0">
+                          <th scope="row"></th>
+                          <td>No categories exist at the moment.</td>
+                          <td></td>
+                        </tr>                 
+                      </tbody>
+                    </table>
+                </div>                         
+              </div>
+              <div class="row">
+                  <h5>Emails</h5>
+                </div>
+                <div class="row">
+                  <div class="categorylistoutercomponent">
+                    <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Address</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let p of emailList">
+                            <th scope="row">{{ p.email }}</th>
+                          </tr>
+                          <tr class="insertrow">
+                              <th scope="row"><input type="text" class="form-control" id="emailaddress" aria-describedby="email" placeholder="email address" [(ngModel)]="newEmail.email"></th>
+                              <td>
+                                <div class="form-check disabledColor">
+                                  <i class="far fa-check-square cursorPointer"></i>
+                                </div>
+                              </td>
+                              <td class="centeraligntext ">
+                                <button type="button" class="btn btn-xs btn-success buttonDivFloatRight thickerFont inlineCategoryBtn" (click)="addCategory()">
+                                  <i class="far fa-plus-square"></i>
+                                </button>
+                              </td>
+                            </tr> 
+                          <tr *ngIf="emailList.length===0">
+                            <th scope="row"></th>
+                            <td>No emails exist at the moment.</td>
+                            <td></td>
+                          </tr>                 
+                        </tbody>
+                      </table>
+                  </div>                         
+                </div>
+              <div class="row spacingtop">
+                <button type="button" class="btn btn-primary btn-primary buttonsFloatRight " (click)="bsModalRef.hide()">Close</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

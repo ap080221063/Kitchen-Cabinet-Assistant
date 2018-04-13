@@ -1,0 +1,4 @@
+[
+    {"id":1, "email":"mail1@gmail.com", "active":true, "issender":true,  "isreceiver":true},
+    {"id":2, "email":"mail2@gmail.com", "active":true, "issender":false, "isreceiver":true}
+]

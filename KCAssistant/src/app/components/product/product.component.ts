@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { Product } from '../../classes/product';
 import { Category } from '../../classes/productCategory';
-import { Translation } from '../../classes/translation';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -57,7 +56,6 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-  // unsubscribe to ensure no memory leaks
      this.categoryListSubscription.unsubscribe();
    }
 
@@ -70,10 +68,6 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.productService.removeProduct(this.product.id);
     this.bsModalRef.hide();
   }
-
-  // public getcategoryList(): Category[] {
-  //   return this.categoryService.getAllCategories();
-  // }
 
   spinnerchanged(input: any) {
     if (input.other === 'quantity') {
