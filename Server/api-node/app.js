@@ -276,16 +276,12 @@ app.post('/categoryremove/:id', function(req, res){
     categorydata = JSON.parse(data);
 
     categorydata.forEach(element => {
-      if(element.id == id){
-        element.active = false;
-      }
-      
-      if(element.active == true){
+      if(element.id != id){
         categorydatatosend.push(element);
       }
     });
     
-    filesystem.writeFile ('AuxiliaryFiles/categories.json', JSON.stringify(categorydata), function(err) {
+    filesystem.writeFile ('AuxiliaryFiles/categories.json', JSON.stringify(categorydatatosend), function(err) {
         if (err) console.log(err);
         
         console.log('categories file saved');
@@ -361,6 +357,120 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
             }
           });
           res.send(categoryDataRes);
+      });
+    });
+  }
+});
+
+//emails---------------------------------------------------------------------------
+app.get('/emaillist', function(req, res) {
+  console.log('emails list request');
+
+  var emaildata;
+    filesystem.readFile('AuxiliaryFiles/emails.json', 
+    function(err, data) {
+      emaildata = JSON.parse(data);
+      res.send(emaildata);
+    });
+});
+
+app.post('/emailremove/:id', function(req, res){
+
+  var id = req.params.id;
+  console.log('remove email with id: '+id);
+
+  var emaildata;
+  var emaildatatosend = [];
+
+  filesystem.readFile('AuxiliaryFiles/emails.json', 'utf8', function (err, data) {
+    if (err) console.log(err);
+
+    emaildata = JSON.parse(data);
+
+    emaildata.forEach(element => {
+      if(element.id != id){
+        emaildatatosend.push(element);
+      }
+    });
+    
+    filesystem.writeFile ('AuxiliaryFiles/emails.json', JSON.stringify(emaildatatosend), function(err) {
+        if (err) console.log(err);
+        
+        console.log('emails file saved');
+
+        res.send(emaildatatosend);
+    });
+  });
+
+});
+
+app.post('/emailsave/:id', upload.array(), function(req, res){ 
+  var id = req.params.id;
+  
+  var body = req.body;
+
+  var emaildata;
+  var emailDataRes = [];
+  var lastId = 0;
+
+  if (id==0) {
+    console.log('save new email');
+    filesystem.readFile('AuxiliaryFiles/emails.json', 'utf8', function (err, data) {
+      if (err) console.log(err);
+
+      //parse data on file
+      emaildata = JSON.parse(data);
+      //get last id
+      emaildata.forEach(element => {
+        if (lastId<element.id){
+          lastId = element.id;
+        }
+      });
+      //give lastid+1 to new emails
+      body.id = lastId+1;
+
+      //add new emails to array
+      emaildata.push(body);
+      //save to file
+      filesystem.writeFile ('AuxiliaryFiles/emails.json', JSON.stringify(emaildata), function(err) {
+          if (err) console.log(err);
+          console.log('emails file saved');
+
+          emaildata.forEach(element => {
+            if(element.active === true){
+              emailDataRes.push(element);
+            }
+          });
+          res.send(emailDataRes);
+      });
+    });
+  }else{
+    console.log('update existing email with id: '+id);
+    filesystem.readFile('AuxiliaryFiles/emails.json', 'utf8', function (err, data) {
+      if (err) console.log(err);
+
+      //parse data on file
+      emaildata = JSON.parse(data);
+      //get last id
+      emaildata.forEach(element => {
+        if (id == element.id){
+          element.name = body.name;
+          element.active = body.active;
+          element.issender = body.issender;
+          element.isreceiver = body.isreceiver;
+        }
+      });
+      //save to file
+      filesystem.writeFile ('AuxiliaryFiles/emails.json', JSON.stringify(emaildata), function(err) {
+          if (err) console.log(err);
+          console.log('emails file saved');
+
+          emaildata.forEach(element => {
+            if(element.active === true){
+              emailDataRes.push(element);
+            }
+          });
+          res.send(emailDataRes);
       });
     });
   }

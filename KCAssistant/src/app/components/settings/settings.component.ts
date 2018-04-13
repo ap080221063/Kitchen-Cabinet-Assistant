@@ -53,19 +53,57 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   public addCategory() {
-
+    this.categoryService.createUpdateCategory(this.newCategory);
   }
 
   public removeCategory(categoryId: number) {
+    this.categoryService.removeCategory(categoryId);
+  }
 
+  public categoryChangeState(categoryId: number) {
+    this.categoryList.forEach(element => {
+      if (element.id === categoryId) {
+        element.active = !element.active;
+        this.categoryService.createUpdateCategory(element);
+      }
+    });
   }
 
   public addEmail() {
-
+    this.emailService.createUpdateEmail(this.newEmail);
   }
 
   public removeEmail(emailId: number) {
+    this.emailService.removeEmail(emailId);
+  }
 
+  public emailPropertyChangeState(prop: string, emailId: number) {
+    switch (prop) {
+      case 'active':
+        this.emailList.forEach(element => {
+          if (element.id === emailId) {
+            element.active = !element.active;
+            this.emailService.createUpdateEmail(element);
+          }
+        });
+      break;
+      case 'issender':
+        this.emailList.forEach(element => {
+          if (element.id === emailId) {
+            element.issender = !element.issender;
+            this.emailService.createUpdateEmail(element);
+          }
+        });
+      break;
+      case 'isreceiver':
+        this.emailList.forEach(element => {
+          if (element.id === emailId) {
+            element.isreceiver = !element.isreceiver;
+            this.emailService.createUpdateEmail(element);
+          }
+        });
+      break;
+    }
   }
 
   private initializeCategory(): Category {

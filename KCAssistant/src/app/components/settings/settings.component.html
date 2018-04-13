@@ -28,8 +28,8 @@
                           <th scope="row">{{ p.name }}</th>
                           <td>
                             <div class="form-check">
-                              <i class="far fa-check-square cursorPointer" *ngIf="p.active" (click)="changeState(p.id)"></i>
-                              <i class="far fa-square cursorPointer" *ngIf="!p.active" (click)="changeState(p.id)"></i>
+                              <i class="far fa-check-square cursorPointer" *ngIf="p.active" (click)="categoryChangeState(p.id)"></i>
+                              <i class="far fa-square cursorPointer" *ngIf="!p.active" (click)="categoryChangeState(p.id)"></i>
                             </div>
                           </td>
                           <td class="centeraligntext">
@@ -60,20 +60,47 @@
                     </table>
                 </div>                         
               </div>
-              <div class="row">
+              <div class="row spacingtop">
                   <h5>Emails</h5>
                 </div>
                 <div class="row">
-                  <div class="categorylistoutercomponent">
+                  <div class="emaillistoutercomponent">
                     <table class="table table-striped">
                         <thead>
                           <tr>
                             <th scope="col">Address</th>
+                            <th scope="col">Active</th>
+                            <th scope="col">Sender</th>
+                            <th scope="col">Receiver</th>
+                            <th scope="col">Remove</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let p of emailList">
                             <th scope="row">{{ p.email }}</th>
+                            <td>
+                                <div class="form-check">
+                                  <i class="far fa-check-square cursorPointer" *ngIf="p.active"  (click)="emailPropertyChangeState('active', p.id)"></i>
+                                  <i class="far fa-square cursorPointer"       *ngIf="!p.active" (click)="emailPropertyChangeState('active', p.id)"></i>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check">
+                                  <i class="far fa-check-square cursorPointer" *ngIf="p.issender"  (click)="emailPropertyChangeState('issender', p.id)"></i>
+                                  <i class="far fa-square cursorPointer"       *ngIf="!p.issender" (click)="emailPropertyChangeState('issender', p.id)"></i>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-check">
+                                  <i class="far fa-check-square cursorPointer" *ngIf="p.isreceiver"  (click)="emailPropertyChangeState('isreceiver', p.id)"></i>
+                                  <i class="far fa-square cursorPointer"       *ngIf="!p.isreceiver" (click)="emailPropertyChangeState('isreceiver', p.id)"></i>
+                                </div>
+                            </td>
+                            <td class="centeraligntext">
+                                <button type="button" class="btn btn-xs btn-danger buttonDivFloatRight thickerFont inlineCategoryBtn" (click)="removeEmail(p.id)">
+                                  <i class="far fa-trash-alt"></i>
+                                </button>
+                            </td>
                           </tr>
                           <tr class="insertrow">
                               <th scope="row"><input type="text" class="form-control" id="emailaddress" aria-describedby="email" placeholder="email address" [(ngModel)]="newEmail.email"></th>
@@ -82,8 +109,18 @@
                                   <i class="far fa-check-square cursorPointer"></i>
                                 </div>
                               </td>
+                              <td>
+                                <div class="form-check disabledColor">
+                                  <i class="far fa-square cursorPointer"></i>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="form-check disabledColor">
+                                  <i class="far fa-check-square cursorPointer"></i>
+                                </div>
+                              </td>
                               <td class="centeraligntext ">
-                                <button type="button" class="btn btn-xs btn-success buttonDivFloatRight thickerFont inlineCategoryBtn" (click)="addCategory()">
+                                <button type="button" class="btn btn-xs btn-success buttonDivFloatRight thickerFont inlineCategoryBtn" (click)="addEmail()">
                                   <i class="far fa-plus-square"></i>
                                 </button>
                               </td>

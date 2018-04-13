@@ -18,4 +18,15 @@ export class EmailService {
 
   }
 
+  public removeEmail(emailId: number): void {
+    this.http.post<any>(this.Server + 'emailremove/' + emailId, '')
+            .subscribe(data => this.emailList.next(data));
+  }
+
+  public createUpdateEmail(email: Email): void {
+    this.http.post<any>(this.Server + 'emailsave/' + email.id, email)
+            .subscribe(data => this.emailList.next(data));
+  }
+
+
 }

@@ -3,6 +3,17 @@
     overflow: auto;
     scroll-behavior: smooth;
     width: 100%;
+    border: 1px solid #c1c1c1;
+    border-top: 0px;
+}
+
+.emaillistoutercomponent{
+    height: 150px;
+    overflow: auto;
+    scroll-behavior: smooth;
+    width: 100%;
+    border: 1px solid #c1c1c1;
+    border-top: 0px;
 }
 
 .centeraligntext{

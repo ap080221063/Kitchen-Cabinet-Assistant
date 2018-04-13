@@ -20,4 +20,14 @@ export class CategoryService {
 
   }
 
+  public removeCategory(catId: number): void {
+    this.http.post<any>(this.Server + 'categoryremove/' + catId, '')
+            .subscribe(data => this.categoryList.next(data));
+  }
+
+  public createUpdateCategory(category: Category): void {
+    this.http.post<any>(this.Server + 'emailsave/' + category.id, category)
+            .subscribe(data => this.categoryList.next(data));
+  }
+
 }
