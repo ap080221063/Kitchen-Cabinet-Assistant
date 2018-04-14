@@ -15,9 +15,14 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   public getAllCategories(): void {
-    this.http.get<any>(this.Server + 'categorylist')
+    this.http.get<any>(this.Server + 'categorylist/' + 'all')
             .subscribe(data => this.categoryList.next(data));
 
+  }
+
+  public getActiveCategories(): void {
+    this.http.get<any>(this.Server + 'categorylist/' + 'active')
+        .subscribe(data => this.categoryList.next(data));
   }
 
   public removeCategory(catId: number): void {
@@ -26,7 +31,7 @@ export class CategoryService {
   }
 
   public createUpdateCategory(category: Category): void {
-    this.http.post<any>(this.Server + 'emailsave/' + category.id, category)
+    this.http.post<any>(this.Server + 'categorysave/' + category.id, category)
             .subscribe(data => this.categoryList.next(data));
   }
 

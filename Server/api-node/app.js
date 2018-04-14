@@ -251,14 +251,26 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
 });
 
 //categories-----------------------------------------------------------------------
-app.get('/categorylist', function(req, res) {
+app.get('/categorylist/:state', function(req, res) {
+  var state = req.params.state;
   console.log('category list request');
 
   var categorydata;
     filesystem.readFile('AuxiliaryFiles/categories.json', 
     function(err, data) {
       categorydata = JSON.parse(data);
-      res.send(categorydata);
+
+      if(state == 'undefined' || state == 'all'){
+        res.send(categorydata);
+      }else if(state == 'active'){
+        var auxCategoryData = [];
+        categorydata.forEach(element => {
+          if(element.active == true){
+            auxCategoryData.push(element);
+          }
+        });
+        res.send(auxCategoryData);
+      }
     });
 });
 
@@ -325,9 +337,7 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
           console.log('categories file saved');
 
           categorydata.forEach(element => {
-            if(element.active === true){
-              categoryDataRes.push(element);
-            }
+            categoryDataRes.push(element);
           });
           res.send(categoryDataRes);
       });
@@ -352,9 +362,7 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
           console.log('categories file saved');
 
           categorydata.forEach(element => {
-            if(element.active === true){
-              categoryDataRes.push(element);
-            }
+            categoryDataRes.push(element);
           });
           res.send(categoryDataRes);
       });
@@ -437,9 +445,7 @@ app.post('/emailsave/:id', upload.array(), function(req, res){
           console.log('emails file saved');
 
           emaildata.forEach(element => {
-            if(element.active === true){
-              emailDataRes.push(element);
-            }
+            emailDataRes.push(element);
           });
           res.send(emailDataRes);
       });
@@ -466,9 +472,7 @@ app.post('/emailsave/:id', upload.array(), function(req, res){
           console.log('emails file saved');
 
           emaildata.forEach(element => {
-            if(element.active === true){
-              emailDataRes.push(element);
-            }
+            emailDataRes.push(element);
           });
           res.send(emailDataRes);
       });

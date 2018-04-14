@@ -42,7 +42,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.categoryService.getAllCategories();
+    this.categoryService.getActiveCategories();
 
     if (!this.isnew) {
     this.productSubscription = this.productService.product

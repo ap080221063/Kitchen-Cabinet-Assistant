@@ -28,8 +28,8 @@
                           <th scope="row">{{ p.name }}</th>
                           <td>
                             <div class="form-check">
-                              <i class="far fa-check-square cursorPointer" *ngIf="p.active" (click)="categoryChangeState(p.id)"></i>
-                              <i class="far fa-square cursorPointer" *ngIf="!p.active" (click)="categoryChangeState(p.id)"></i>
+                              <span *ngIf="p.active" (click)="categoryChangeState(p.id)"><i class="far fa-check-square cursorPointer" ></i></span>
+                              <span *ngIf="!p.active" (click)="categoryChangeState(p.id)"><i class="far fa-square cursorPointer" ></i></span>
                             </div>
                           </td>
                           <td class="centeraligntext">
@@ -80,20 +80,20 @@
                             <th scope="row">{{ p.email }}</th>
                             <td>
                                 <div class="form-check">
-                                  <i class="far fa-check-square cursorPointer" *ngIf="p.active"  (click)="emailPropertyChangeState('active', p.id)"></i>
-                                  <i class="far fa-square cursorPointer"       *ngIf="!p.active" (click)="emailPropertyChangeState('active', p.id)"></i>
+                                  <span *ngIf="p.active"  (click)="emailPropertyChangeState('active', p.id)"><i class="far fa-check-square cursorPointer" ></i></span>
+                                  <span *ngIf="!p.active" (click)="emailPropertyChangeState('active', p.id)"><i class="far fa-square cursorPointer"       ></i></span>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-check">
-                                  <i class="far fa-check-square cursorPointer" *ngIf="p.issender"  (click)="emailPropertyChangeState('issender', p.id)"></i>
-                                  <i class="far fa-square cursorPointer"       *ngIf="!p.issender" (click)="emailPropertyChangeState('issender', p.id)"></i>
+                                  <span *ngIf="p.issender"  (click)="emailPropertyChangeState('issender', p.id)"><i class="far fa-check-square cursorPointer" ></i></span>
+                                  <span *ngIf="!p.issender" (click)="emailPropertyChangeState('issender', p.id)"><i class="far fa-square cursorPointer"       ></i></span>
                                 </div>
                             </td>
                             <td>
                                 <div class="form-check">
-                                  <i class="far fa-check-square cursorPointer" *ngIf="p.isreceiver"  (click)="emailPropertyChangeState('isreceiver', p.id)"></i>
-                                  <i class="far fa-square cursorPointer"       *ngIf="!p.isreceiver" (click)="emailPropertyChangeState('isreceiver', p.id)"></i>
+                                  <span *ngIf="p.isreceiver"  (click)="emailPropertyChangeState('isreceiver', p.id)"><i class="far fa-check-square cursorPointer" ></i></span>
+                                  <span *ngIf="!p.isreceiver" (click)="emailPropertyChangeState('isreceiver', p.id)"><i class="far fa-square cursorPointer"       ></i></span>
                                 </div>
                             </td>
                             <td class="centeraligntext">
