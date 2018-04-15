@@ -31,5 +31,5 @@ config.emailtabletemplate =
 '</table>';
 ```
 
-For the sake of ease and security when commiting onto GitHub, this file was added to the gitignore list. So a version of this file with a .template extension was added for guidance. 
+For the sake of ease and security, while commiting onto GitHub during implementation phase, the file was added to the gitignore list. So a version of this file with a .template extension was added for guidance. 
 So after configuring this file remove the **.template** extension.
