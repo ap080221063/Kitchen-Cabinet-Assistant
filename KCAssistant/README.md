@@ -2,6 +2,19 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.2.
 
+## Environment configurations
+
+For each environment, the WEB API's server url and port must be configured so that data GET and POST calls are successfull, see below:
+* Under Kitchen-Cabinet-Assistant/KCAssistant/src/environments/
+  * environment.ts
+  * environment.prod.ts
+```
+export const config = {
+  serverurl: 'http://localhost',
+  serverport: '8081',
+};
+```
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
