@@ -486,24 +486,41 @@ app.post('/sendshoppinglist/', upload.array(), function(req, res){
   var body = req.body;
   var datetosend = new Date();
   var datetosendText = (datetosend.getDate() + '-' + (datetosend.getMonth()+1) + '-' + datetosend.getFullYear());
-
-  var productListToSend = 'Product List: \n';
+  var emaildata;
+  var productListToSend = [];
 
   body.forEach(function(item){
-    productListToSend += item.name + ' -> ' + item.predictToBuy + '\n'; 
+    productListToSend.push('<tr><td>'+item.name+'</td><td>'+item.predictToBuy+'</td></tr>');
   });
 
-  var send = require('gmail-send')({
-      user: config.gmailuser,
-      pass: config.gmailpassword,
-      to:   config.emailrecipients,
-      subject: 'Lista de compras (' + datetosendText +')',
-      text:    productListToSend,
-      //html:    '<b>html text</b>'            // HTML
+  filesystem.readFile('AuxiliaryFiles/emails.json', 'utf8', function (err, data) {
+    if (err) console.log(err);
+
+    emaildata = JSON.parse(data);
+    var emailsenders = "";
+    var emailreceivers = "";
+    
+    emaildata.forEach(element => {
+      if(element.issender && element.active){
+        emailsenders = emailsenders + element.email + ",";
+      }
+      if(element.isreceiver && element.active){
+        emailreceivers = emailreceivers + element.email + ",";
+      }
     });
 
-    send();
+    var send = require('gmail-send')({
+      user: config.gmailuser,
+      pass: config.gmailpassword,
+      to:   emailreceivers,
+      from: emailsenders,
+      subject: 'Shopping List (' + datetosendText +')',
+      html: generateEmailHtml(productListToSend, config.emailtabletemplate)
+    })({});
 
+    //send();
+
+  });
 });
 
 app.listen(config.port, function() {
@@ -511,3 +528,16 @@ app.listen(config.port, function() {
   console.log('port: '+ config.port);
 });
 
+/*other functions*/ 
+function generateEmailHtml(productlist, tabletemplate){
+
+  var htmltable = tabletemplate;
+  var rows = "";
+
+  productlist.forEach(element => {
+    rows = rows + element;
+  });
+  
+  htmltable = htmltable.replace('@@DYNAMICROWS',rows)
+  return htmltable;
+}
