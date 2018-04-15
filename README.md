@@ -14,11 +14,11 @@ It is intended to be a user friendly and very straight foward app and multi-devi
 
 ## Installation
 
-* Front-end is implemented with Angular CLI and other node modules, [here]();
-* Back end is a REST API. It is implemented with Node.js, and being served acting as a webserver, [here](https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Server/README.md);
+* Front-end is implemented with Angular CLI and other node modules, installation info [here](https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/KCAssistant/README.md);
+* Back end is a REST API implemented with Node.js, and acting as a webserver, installation info [here](https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Server/README.md);
   * There is no database in this project. Data persistance is done on .json files;
 * ###### Raspberry Pi installation walkthrough
-  * A walkthrough on how to configure a raspberry pi as a webserver to deliver this project at home can be found [here]();
+  * A walkthrough on how to configure a raspberry pi as a webserver to deliver this project at home can be found [here TODO]();
 
 ## Future developments and Would-Like-To-Have features
 
