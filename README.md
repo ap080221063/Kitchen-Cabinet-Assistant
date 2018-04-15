@@ -26,3 +26,4 @@ It is intended to be a user friendly and very straight foward app and multi-devi
   * Uploading a .json or .xml file with a list of barcodes and quantities that could perform a bulk update;
   * Barcode picking each product, with a barcode reader pistol, could send a POST request to update a product;
   * With the correct integration, the product's price/image/caracteristics would be always up to date;
+* Change the email module (gmail-send), as it restricts the email account that sends the shopping list as being necessarilly a Gmail account.
