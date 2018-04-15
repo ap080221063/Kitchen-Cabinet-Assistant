@@ -11,3 +11,6 @@ It is user friendly and multi-device responsive. The goal is a better management
 * Quick search box;
 * Shopping list creation based on the quantity shortage number defined for each product;
 * One-click email shopping list to relying email addresses;
+
+## Raspberry Pi installation walkthrough
+* Walkthrough on how to configure a raspberry pi as a webserver to deliver this project at home;
