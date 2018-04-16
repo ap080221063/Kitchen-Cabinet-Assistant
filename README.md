@@ -16,7 +16,7 @@ It is intended to be a user friendly and very straight foward app and multi-devi
 
 * Front-end is implemented with Angular CLI and other node modules, installation info [here](https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/KCAssistant/README.md);
 * Back end is a REST API implemented with Node.js, and acting as a webserver, installation info [here](https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Server/README.md);
-  * There is no database in this project. Data persistance is done on .json files;
+  * There is no database in this project. Data persistance is done using .json files;
 * ###### Raspberry Pi installation walkthrough
   * A walkthrough on how to configure a raspberry pi as a webserver to deliver this project at home can be found [here TODO]();
 
@@ -27,3 +27,12 @@ It is intended to be a user friendly and very straight foward app and multi-devi
   * Barcode picking each product, with a barcode reader pistol, could send a POST request to update a product;
   * With the correct integration, the product's price/image/caracteristics would be always up to date;
 * Change the email module (gmail-send), as it restricts the email account that sends the shopping list as being necessarilly a Gmail account.
+* Lazy loading the products in the product list would be more performant and should be one of the next steps;
+
+## Application images
+
+<img src="https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Design%26Mockups/development/1.PNG" width="530" height="400" />
+
+<img src="https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Design%26Mockups/development/5.PNG" width="530" height="400" />
+
+<img src="https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Design%26Mockups/development/2.PNG" width="530" height="400" />
