@@ -18,7 +18,7 @@ It is intended to be a user friendly and very straight foward app and multi-devi
 * Back end is a REST API implemented with Node.js, and acting as a webserver, installation info [here](https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Server/README.md);
   * There is no database in this project. Data persistance is done using .json files;
 * ###### Raspberry Pi installation walkthrough
-  * A walkthrough on how to configure a raspberry pi as a webserver to deliver this project at home can be found [here TODO]();
+  * A walkthrough on how to configure a raspberry pi as a webserver to deliver this project at home can be found [here](https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Raspberry%20Pi%20Configuration%20Guide.pdf);
 
 ## Future developments and Would-Like-To-Have features
 
