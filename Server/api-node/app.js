@@ -145,7 +145,7 @@ app.post('/productsave/:id', upload.array(), function(req, res){
       body.id = lastId+1;
 
       //save image in image folder
-      require("fs").writeFile("Auxiliaryfolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
+      require("fs").writeFile("AuxiliaryFolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
         if (err) console.log(err);
       });
       //delete body.imgUrl.value
@@ -184,7 +184,7 @@ app.post('/productsave/:id', upload.array(), function(req, res){
 
           if(body.imgUrl.value != ''){
             //save image in image folder
-            require("fs").writeFile("Auxiliaryfolder/ProductImages/" + body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
+            require("fs").writeFile("AuxiliaryFolder/ProductImages/" + body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
               if (err) console.log(err);
             });
             //delete body.imgUrl.value
