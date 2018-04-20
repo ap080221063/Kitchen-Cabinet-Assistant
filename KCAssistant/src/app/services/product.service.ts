@@ -6,6 +6,8 @@ import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { config } from '../../environments/environment';
+import { SearchandfilterService } from './searchandfilter.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
 export class ProductService {
@@ -13,15 +15,27 @@ export class ProductService {
   public product = new Subject<Product>();
   public productList = new Subject<Product[]>();
   public neededProductsList = new Subject<Product[]>();
+  public Server = config.serverurl + ':' + config.serverport + '/';
 
   private localList: Array<Product>;
 
-  public Server = config.serverurl + ':' + config.serverport + '/';
+  private nameFilterSubscription: Subscription;
+  private nameFilter: string;
+  private categoryFilterSubscription: Subscription;
+  private categoryFilter: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private searchservice: SearchandfilterService) {
+
+    this.nameFilterSubscription = this.searchservice.sharedNameFilter
+    .subscribe(nf => {this.nameFilter = nf; });
+
+    this.categoryFilterSubscription = this.searchservice.sharedCategoryFilter
+    .subscribe(nf => {this.categoryFilter = nf; });
+
+   }
 
   public getActiveProducts(): void {
-    this.http.get<any>(this.Server + 'productlist')
+    this.http.post<any>(this.Server + 'productlist', this.getFiltersObject())
             .subscribe(data => this.productList.next(this.activeList(data)));
 
   }
@@ -32,7 +46,7 @@ export class ProductService {
   }
 
   public getNeededProducts(): void {
-     this.http.get<any>(this.Server + 'productlist')
+     this.http.post<any>(this.Server + 'productlist', '')
             .subscribe(data => this.neededProductsList.next(this.neededList(data)));
 
   }
@@ -43,29 +57,19 @@ export class ProductService {
   }
 
   public removeProduct(prodId: number): void {
-    this.http.post<any>(this.Server + 'productremove/' + prodId, '')
+    this.http.post<any>(this.Server + 'productremove/' + prodId, this.getFiltersObject())
             .subscribe(data => this.productList.next(data));
   }
 
   public createUpdateProduct(product: Product): void {
-    this.http.post<any>(this.Server + 'productsave/' + product.id, product)
+    this.http.post<any>(this.Server + 'productsave/' + product.id, this.getDataObjectWithFilters(product))
             .subscribe(data => this.productList.next(data));
   }
 
   public clearFilter() {
+    this.searchservice.setNameFilter('');
+    this.searchservice.setCategoryFilter('');
     this.getActiveProducts();
-  }
-
-  public sendFilteredProductList(filter: string) {
-    if (filter === null || filter === '' ) {
-      this.getActiveProducts();
-    } else {
-       let productAuxList: Product[];
-       productAuxList = new Array<Product>();
-
-       this.http.get<any>(this.Server + 'productlist/filter/' + filter)
-        .subscribe(data => this.productList.next(data));
-    }
   }
 
   public sendShoppingListEmail(productsToAddList: Product[]): void {
@@ -75,6 +79,7 @@ export class ProductService {
   // private auxiliary methods
 
   private activeList(pArray: Array<Product>): Array<Product> {
+    console.log(pArray);
     let productAuxList: Product[];
     productAuxList = new Array<Product>();
 
@@ -118,6 +123,20 @@ export class ProductService {
     });
 
     return productAuxList;
+  }
+
+  private getFiltersObject(): Object {
+    let filters: Object;
+    filters = {'nameFilter': this.nameFilter, 'categoryFilter': this.categoryFilter};
+
+    return filters;
+  }
+
+  private getDataObjectWithFilters(objIn: any): Object {
+    let dataObject: Object;
+    dataObject = {'data': objIn, 'filters': this.getFiltersObject()};
+
+    return dataObject;
   }
 
 }

@@ -12,6 +12,8 @@ import faicons from '@fortawesome/fontawesome-free-regular/';
 import faiconssolid from '@fortawesome/fontawesome-free-solid/';
 import { ShoppingListComponent } from '../shopping-list/shopping-list.component';
 import { config } from '../../../environments/environment';
+import { SearchandfilterService } from '../../services/searchandfilter.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-product-list',
@@ -28,8 +30,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
   removeProductBtnVisible: boolean;
   bsModalRef: BsModalRef;
 
+  private nameFilterSubscription: Subscription;
+  private nameFilter: Subject<string>;
+  private categoryFilterSubscription: Subscription;
+  private categoryFilter: Subject<string>;
+
   constructor(private prodService: ProductService,
-              private modalService: BsModalService) {
+              private modalService: BsModalService,
+              private searchservice: SearchandfilterService) {
 
     fontawesome.library.add(faicons);
     fontawesome.library.add(faiconssolid);
@@ -37,7 +45,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.componentProductListSubscription = this.prodService.productList
         .subscribe(products => {this.componentProductList = products; });
 
+    this.nameFilterSubscription = this.searchservice.sharedNameFilter
+    .subscribe(nf => {this.getProducts(); });
+
+    this.categoryFilterSubscription = this.searchservice.sharedCategoryFilter
+    .subscribe(cf => { this.getProducts(); });
+
     this.removeProductBtnVisible = false;
+
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { ProductService } from '../../services/product.service';
+import { SearchandfilterService } from '../../services/searchandfilter.service';
 
 @Component({
   selector: 'app-search-and-filter',
@@ -9,29 +9,43 @@ import { ProductService } from '../../services/product.service';
 })
 export class SearchAndFilterComponent implements OnInit {
 
-  constructor(private productservice: ProductService) { }
+  nameFilter = new Subject<string>();
+  categoryFilter = new Subject<string>();
 
-  myObservable = new Subject<string>();
-  // Create observer object
-  myObserver = {
-    next: x => this.sendFilter(x), // console.log('Observer got a next value: ' + x),
-    // error: err => console.error('Observer got an error: ' + err),
-    // complete: () => console.log('Observer got a complete notification'),
+  filterNameObserver = {
+    next: x => this.setNFilter(x)
   };
+
+  filterCategoryObserver = {
+    next: x => this.setCFilter(x)
+  };
+
+  constructor(private searchservice: SearchandfilterService) { }
 
   clearFilter(): void {
     console.log('searchcomponent->clearfilter');
-    this.myObservable.next(undefined);
-    this.productservice.clearFilter();
+
+    this.searchservice.setNameFilter('');
+    // this.filterNameObserver.next('');
+
+    this.searchservice.setCategoryFilter('');
+    // this.filterCategoryObserver.next('');
+
   }
 
-  sendFilter(input): void {
+  setNFilter(nfilter: string): void {
     console.log('searchcomponent->sendfilter');
-    this.productservice.sendFilteredProductList(input);
+    this.searchservice.setNameFilter(nfilter);
+  }
+
+  setCFilter(cfilter: string): void {
+    console.log('searchcomponent->sendfilter');
+    this.searchservice.setCategoryFilter(cfilter);
   }
 
   ngOnInit() {
-    this.myObservable.subscribe(this.myObserver);
+    this.nameFilter.subscribe(this.filterNameObserver);
+    this.categoryFilter.subscribe(this.filterCategoryObserver);
   }
 
 }

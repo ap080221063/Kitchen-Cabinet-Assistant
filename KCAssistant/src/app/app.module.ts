@@ -7,6 +7,7 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductService } from './services/product.service';
 import { CategoryService } from './services/category.service';
+import { SearchandfilterService } from './services/searchandfilter.service';
 import { EmailService } from './services/email.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -38,6 +39,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     ProductService,
     CategoryService,
     EmailService,
+    SearchandfilterService,
     HttpClientModule,
     HttpClient
   ],

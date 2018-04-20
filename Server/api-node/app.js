@@ -20,7 +20,7 @@ var upload = multer();
 app.get('/product/:id', function(req, res) {
   var id = req.params.id;
 
-  console.log('product with id: '+id);
+  // console.log('product with id: '+id);
 
   var productdata;
   var product;
@@ -39,46 +39,38 @@ app.get('/product/:id', function(req, res) {
     });
 });
 
-app.get('/productlist', function(req, res) {
-  console.log('product list request');
+app.post('/productlist', upload.array(), function(req, res) {
+  // console.log('product list request');
 
-  var productdata;
-  //get product data by id
-    filesystem.readFile('AuxiliaryFiles/products.json', 
-    function(err, data) {
-      productdata = JSON.parse(data);
-      res.send(productdata);
-    });
-});
-
-app.get('/productlist/filter/:filterparam', function(req, res) {
-  
-  var filterparam = req.params.filterparam;
-  
-  console.log('product list with filter: '+filterparam);
-
+  var filters = req.body;
   var productdata;
   var productlisttosend = [];
-  //get product data by id
-    filesystem.readFile('AuxiliaryFiles/products.json', 
-    function(err, data) {
-      productdata = JSON.parse(data);
-      
-      for(var p = 0; p < productdata.length; p++){
-        if(productdata[p].name.toLowerCase().indexOf(filterparam.toLowerCase()) > -1 && productdata[p].active === true){
-          productlisttosend.push(productdata[p]);
+   
+  filesystem.readFile('AuxiliaryFiles/products.json', 
+     function(err, data) {
+       productdata = JSON.parse(data);
+
+       if(!(Object.keys(filters).length === 0 && filters.constructor === Object)){
+        
+        for(var p = 0; p < productdata.length; p++){
+          if(productdata[p].name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && productdata[p].active === true){
+            productlisttosend.push(productdata[p]);
+          }
         }
-      }
-      
-      res.send(productlisttosend);
-    });
+        res.send(productlisttosend);
+
+       } else {
+        res.send(productdata);
+       }
+
+     });
 });
 
 app.get('/images/:imgname', function(req, res) {
   
   var imgnameparam = req.params.imgname;
   
-  console.log('get image: '+imgnameparam);
+  // console.log('get image: '+imgnameparam);
   filesystem.readFile('AuxiliaryFolder/ProductImages/'+imgnameparam, 
   function(err, data) {   
     res.send(data);
@@ -88,13 +80,14 @@ app.get('/images/:imgname', function(req, res) {
 
 app.post('/productremove/:id', function(req, res){ 
   var id = req.params.id;
-  console.log('remove product with id: '+id);
+  // console.log('remove product with id: '+id);
+  var filters = req.body;
 
   var productdata;
   var productdatatosend = [];
 
   filesystem.readFile('AuxiliaryFiles/products.json', 'utf8', function (err, data) {
-      if (err) console.log(err);
+      // if (err) // console.log(err);
 
       productdata = JSON.parse(data);
 
@@ -103,15 +96,22 @@ app.post('/productremove/:id', function(req, res){
           element.active = false;
         }
         
-        if(element.active == true){
-          productdatatosend.push(element);
+        if(!(Object.keys(filters).length === 0 && filters.constructor === Object)){
+            if(element.name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && element.active === true){
+              productdatatosend.push(element);
+            }
+        }else{
+          if(element.active == true){
+            productdatatosend.push(element);
+          }
         }
+        
       });
       
       filesystem.writeFile ('AuxiliaryFiles/products.json', JSON.stringify(productdata), function(err) {
-          if (err) console.log(err);
+          // if (err) // console.log(err);
           
-          console.log('products file saved');
+          // console.log('products file saved');
 
           res.send(productdatatosend);
       });
@@ -122,16 +122,17 @@ app.post('/productremove/:id', function(req, res){
 app.post('/productsave/:id', upload.array(), function(req, res){ 
   var id = req.params.id;
   
-  var body = req.body;
+  var incommingProductData = req.body.data;
+  var incommingFilters = req.body.filters;
 
   var productdata;
   var productDataRes = [];
   var lastId = 0;
 
   if (id==0) {
-    console.log('save new product');
+    // console.log('save new product');
     filesystem.readFile('AuxiliaryFiles/products.json', 'utf8', function (err, data) {
-      if (err) console.log(err);
+      // if (err) // console.log(err);
 
       //parse data on file
       productdata = JSON.parse(data);
@@ -142,71 +143,97 @@ app.post('/productsave/:id', upload.array(), function(req, res){
         }
       });
       //give lastid+1 to new product
-      body.id = lastId+1;
+      incommingProductData.id = lastId+1;
 
       //save image in image folder
-      require("fs").writeFile("AuxiliaryFolder/ProductImages/"+body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
-        if (err) console.log(err);
+      require("fs").writeFile("AuxiliaryFolder/ProductImages/"+incommingProductData.imgUrl.filename, incommingProductData.imgUrl.value, 'base64', function(err) {
+        // if (err) // console.log(err);
       });
-      //delete body.imgUrl.value
-      body.imgUrl.value = '';
-      body.imgUrl.filename = /*config.url+':'+config.port+*/'images/'+ body.imgUrl.filename;
+      //delete incommingProductData.imgUrl.value
+      incommingProductData.imgUrl.value = '';
+      incommingProductData.imgUrl.filename = /*config.url+':'+config.port+*/'images/'+ incommingProductData.imgUrl.filename;
       //add new product to array
-      productdata.push(body);
+      productdata.push(incommingProductData);
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/products.json', JSON.stringify(productdata), function(err) {
-          if (err) console.log(err);
+          // if (err) // console.log(err);
           
-          console.log('products file saved');
+          // console.log('products file saved');
 
-          productdata.forEach(element => {
-            if(element.active === true){
-              productDataRes.push(element);
+          if(!(Object.keys(incommingFilters).length === 0 && incommingFilters.constructor === Object)){
+        
+            for(var p = 0; p < productdata.length; p++){
+              if(productdata[p].name.toLowerCase().indexOf(incommingFilters.nameFilter.toLowerCase()) > -1 && productdata[p].active === true){
+                productDataRes.push(productdata[p]);
+              }
             }
-          });
-          res.send(productDataRes);
+            res.send(productDataRes);
+    
+          }else{
+
+            for(var p = 0; p < productdata.length; p++){
+              if(productdata[p].active === true){
+                productDataRes.push(productdata[p]);
+              }
+            }
+            res.send(productDataRes);
+
+          }
       });
     });
   }else{
-    console.log('update existing product with id: '+id);
+    // console.log('update existing product with id: '+id);
     filesystem.readFile('AuxiliaryFiles/products.json', 'utf8', function (err, data) {
-      if (err) console.log(err);
+      // if (err) // console.log(err);
 
       //parse data on file
       productdata = JSON.parse(data);
       //get last id
       productdata.forEach(element => {
         if (id == element.id){
-          element.name = body.name;
-          element.quantity = body.quantity;
-          element.category = body.category;
-          element.shortageQtyWarning = body.shortageQtyWarning;
+          element.name = incommingProductData.name;
+          element.quantity = incommingProductData.quantity;
+          element.category = incommingProductData.category;
+          element.shortageQtyWarning = incommingProductData.shortageQtyWarning;
 
-          if(body.imgUrl.value != ''){
+          if(incommingProductData.imgUrl.value != ''){
             //save image in image folder
-            require("fs").writeFile("AuxiliaryFolder/ProductImages/" + body.imgUrl.filename, body.imgUrl.value, 'base64', function(err) {
-              if (err) console.log(err);
+            require("fs").writeFile("AuxiliaryFolder/ProductImages/" + incommingProductData.imgUrl.filename, incommingProductData.imgUrl.value, 'base64', function(err) {
+              // if (err) // console.log(err);
             });
-            //delete body.imgUrl.value
-            body.imgUrl.value = '';
-            body.imgUrl.filename = /*config.url+':'+config.port+*/'images/' + body.imgUrl.filename;
+            //delete incommingProductData.imgUrl.value
+            incommingProductData.imgUrl.value = '';
+            incommingProductData.imgUrl.filename = /*config.url+':'+config.port+*/'images/' + incommingProductData.imgUrl.filename;
           }
 
-          element.imgUrl = body.imgUrl;
+          element.imgUrl = incommingProductData.imgUrl;
         }
       });
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/products.json', JSON.stringify(productdata), function(err) {
-          if (err) console.log(err);
+          // if (err) // console.log(err);
           
-          console.log('products file saved');
+          // console.log('products file saved');
 
-          productdata.forEach(element => {
-            if(element.active === true){
-              productDataRes.push(element);
+          if(!(Object.keys(incommingFilters).length === 0 && incommingFilters.constructor === Object)){
+        
+            for(var p = 0; p < productdata.length; p++){
+              if(productdata[p].name.toLowerCase().indexOf(incommingFilters.nameFilter.toLowerCase()) > -1 && productdata[p].active === true){
+                productDataRes.push(productdata[p]);
+              }
             }
-          });
-          res.send(productDataRes);
+            res.send(productDataRes);
+    
+          }else{
+
+            for(var p = 0; p < productdata.length; p++){
+              if(productdata[p].active === true){
+                productDataRes.push(productdata[p]);
+              }
+            }
+            res.send(productDataRes);
+
+          }
       });
     });
   }
@@ -219,9 +246,9 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
   var productdata;
   var productDataRes = [];
 
-  console.log('save new product');
+  // console.log('save new product');
   filesystem.readFile('AuxiliaryFiles/products.json', 'utf8', function (err, data) {
-    if (err) console.log(err);
+    // if (err) // console.log(err);
 
     //parse data on file
     productdata = JSON.parse(data);
@@ -236,9 +263,9 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
 
     //save to file
     filesystem.writeFile ('AuxiliaryFiles/products.json', JSON.stringify(productdata), function(err) {
-        if (err) console.log(err);
+        // if (err) // console.log(err);
         
-        console.log('products file saved');
+        // console.log('products file saved');
 
         productdata.forEach(element => {
           if(element.active === true){
@@ -253,7 +280,7 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
 //categories-----------------------------------------------------------------------
 app.get('/categorylist/:state', function(req, res) {
   var state = req.params.state;
-  console.log('category list request');
+  // console.log('category list request');
 
   var categorydata;
     filesystem.readFile('AuxiliaryFiles/categories.json', 
@@ -277,13 +304,13 @@ app.get('/categorylist/:state', function(req, res) {
 app.post('/categoryremove/:id', function(req, res){
 
   var id = req.params.id;
-  console.log('remove category with id: '+id);
+  // console.log('remove category with id: '+id);
 
   var categorydata;
   var categorydatatosend = [];
 
   filesystem.readFile('AuxiliaryFiles/categories.json', 'utf8', function (err, data) {
-    if (err) console.log(err);
+    // if (err) // console.log(err);
 
     categorydata = JSON.parse(data);
 
@@ -294,9 +321,9 @@ app.post('/categoryremove/:id', function(req, res){
     });
     
     filesystem.writeFile ('AuxiliaryFiles/categories.json', JSON.stringify(categorydatatosend), function(err) {
-        if (err) console.log(err);
+        // if (err) // console.log(err);
         
-        console.log('categories file saved');
+        // console.log('categories file saved');
 
         res.send(categorydatatosend);
     });
@@ -314,9 +341,9 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
   var lastId = 0;
 
   if (id==0) {
-    console.log('save new category');
+    // console.log('save new category');
     filesystem.readFile('AuxiliaryFiles/categories.json', 'utf8', function (err, data) {
-      if (err) console.log(err);
+      // if (err) // console.log(err);
 
       //parse data on file
       categorydata = JSON.parse(data);
@@ -333,8 +360,8 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
       categorydata.push(body);
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/categories.json', JSON.stringify(categorydata), function(err) {
-          if (err) console.log(err);
-          console.log('categories file saved');
+          // if (err) // console.log(err);
+          // console.log('categories file saved');
 
           categorydata.forEach(element => {
             categoryDataRes.push(element);
@@ -343,9 +370,9 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
       });
     });
   }else{
-    console.log('update existing category with id: '+id);
+    // console.log('update existing category with id: '+id);
     filesystem.readFile('AuxiliaryFiles/categories.json', 'utf8', function (err, data) {
-      if (err) console.log(err);
+      // if (err) // console.log(err);
 
       //parse data on file
       categorydata = JSON.parse(data);
@@ -358,8 +385,8 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
       });
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/categories.json', JSON.stringify(categorydata), function(err) {
-          if (err) console.log(err);
-          console.log('categories file saved');
+          // if (err) // console.log(err);
+          // console.log('categories file saved');
 
           categorydata.forEach(element => {
             categoryDataRes.push(element);
@@ -372,7 +399,7 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
 
 //emails---------------------------------------------------------------------------
 app.get('/emaillist', function(req, res) {
-  console.log('emails list request');
+  // console.log('emails list request');
 
   var emaildata;
     filesystem.readFile('AuxiliaryFiles/emails.json', 
@@ -385,13 +412,13 @@ app.get('/emaillist', function(req, res) {
 app.post('/emailremove/:id', function(req, res){
 
   var id = req.params.id;
-  console.log('remove email with id: '+id);
+  // console.log('remove email with id: '+id);
 
   var emaildata;
   var emaildatatosend = [];
 
   filesystem.readFile('AuxiliaryFiles/emails.json', 'utf8', function (err, data) {
-    if (err) console.log(err);
+    // if (err) // console.log(err);
 
     emaildata = JSON.parse(data);
 
@@ -402,9 +429,9 @@ app.post('/emailremove/:id', function(req, res){
     });
     
     filesystem.writeFile ('AuxiliaryFiles/emails.json', JSON.stringify(emaildatatosend), function(err) {
-        if (err) console.log(err);
+        // if (err) // console.log(err);
         
-        console.log('emails file saved');
+        // console.log('emails file saved');
 
         res.send(emaildatatosend);
     });
@@ -422,9 +449,9 @@ app.post('/emailsave/:id', upload.array(), function(req, res){
   var lastId = 0;
 
   if (id==0) {
-    console.log('save new email');
+    // console.log('save new email');
     filesystem.readFile('AuxiliaryFiles/emails.json', 'utf8', function (err, data) {
-      if (err) console.log(err);
+      // if (err) // console.log(err);
 
       //parse data on file
       emaildata = JSON.parse(data);
@@ -441,8 +468,8 @@ app.post('/emailsave/:id', upload.array(), function(req, res){
       emaildata.push(body);
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/emails.json', JSON.stringify(emaildata), function(err) {
-          if (err) console.log(err);
-          console.log('emails file saved');
+          // if (err) // console.log(err);
+          // console.log('emails file saved');
 
           emaildata.forEach(element => {
             emailDataRes.push(element);
@@ -451,9 +478,9 @@ app.post('/emailsave/:id', upload.array(), function(req, res){
       });
     });
   }else{
-    console.log('update existing email with id: '+id);
+    // console.log('update existing email with id: '+id);
     filesystem.readFile('AuxiliaryFiles/emails.json', 'utf8', function (err, data) {
-      if (err) console.log(err);
+      // if (err) // console.log(err);
 
       //parse data on file
       emaildata = JSON.parse(data);
@@ -468,8 +495,8 @@ app.post('/emailsave/:id', upload.array(), function(req, res){
       });
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/emails.json', JSON.stringify(emaildata), function(err) {
-          if (err) console.log(err);
-          console.log('emails file saved');
+          // if (err) // console.log(err);
+          // console.log('emails file saved');
 
           emaildata.forEach(element => {
             emailDataRes.push(element);
@@ -494,7 +521,7 @@ app.post('/sendshoppinglist/', upload.array(), function(req, res){
   });
 
   filesystem.readFile('AuxiliaryFiles/emails.json', 'utf8', function (err, data) {
-    if (err) console.log(err);
+    // if (err) // console.log(err);
 
     emaildata = JSON.parse(data);
     var emailsenders = "";
