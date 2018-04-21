@@ -10,6 +10,7 @@ import { config } from '../../environments/environment';
 export class CategoryService {
 
   public categoryList = new Subject<Category[]>();
+  public categoryQuickFilterList = new Subject<Category[]>();
   public Server = config.serverurl + ':' + config.serverport + '/';
 
   constructor(private http: HttpClient) { }
@@ -17,12 +18,16 @@ export class CategoryService {
   public getAllCategories(): void {
     this.http.get<any>(this.Server + 'categorylist/' + 'all')
             .subscribe(data => this.categoryList.next(data));
-
   }
 
   public getActiveCategories(): void {
     this.http.get<any>(this.Server + 'categorylist/' + 'active')
         .subscribe(data => this.categoryList.next(data));
+  }
+
+  public getQuickFilterCategories(): void {
+    this.http.get<any>(this.Server + 'categorylist/' + 'quickfilter')
+        .subscribe(data => this.categoryQuickFilterList.next(data));
   }
 
   public removeCategory(catId: number): void {

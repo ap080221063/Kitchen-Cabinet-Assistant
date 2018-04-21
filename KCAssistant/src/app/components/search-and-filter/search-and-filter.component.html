@@ -2,6 +2,13 @@
   <div class="input-group mb-3">
     <input type="text" class="form-control inputModForSearchBox" placeholder="search for a product" aria-label="product name" aria-describedby="basic-addon2" (keyup)="nameFilter.next($event.target.value)">
   </div>
+  <div class="quickFiltersDiv">
+    <ul class="quickFilterUL">
+      <li class="quickFilterLI" *ngFor="let p of categoryList">
+        <span class="badge badge-primary quickFilterSpan">{{p.name}}</span>
+      </li>
+    </ul>
+  </div>
 </div>
 
 

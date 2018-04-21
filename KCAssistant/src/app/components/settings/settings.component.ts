@@ -50,6 +50,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.categoryListSubscription.unsubscribe();
     this.emailListSubscription.unsubscribe();
+    this.categoryService.getQuickFilterCategories();
   }
 
   public addCategory() {
@@ -64,6 +65,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.categoryList.forEach(element => {
       if (element.id === categoryId) {
         element.active = !element.active;
+        this.categoryService.createUpdateCategory(element);
+      }
+    });
+  }
+
+  public categoryChangeQuickFilter(categoryId: number) {
+    this.categoryList.forEach(element => {
+      if (element.id === categoryId) {
+        element.isquickfilter = !element.isquickfilter;
         this.categoryService.createUpdateCategory(element);
       }
     });
@@ -112,6 +122,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     auxCategory.id = 0;
     auxCategory.name = '';
     auxCategory.active = true;
+    auxCategory.isquickfilter = false;
     return auxCategory;
   }
 

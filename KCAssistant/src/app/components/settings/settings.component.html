@@ -20,6 +20,7 @@
                         <tr>
                           <th scope="col">Name</th>
                           <th scope="col">Active</th>
+                          <th scope="col">Quick filter</th>
                           <th scope="col">Remove</th>
                         </tr>
                       </thead>
@@ -32,6 +33,12 @@
                               <span *ngIf="!p.active" (click)="categoryChangeState(p.id)"><i class="far fa-square cursorPointer" ></i></span>
                             </div>
                           </td>
+                          <td>
+                            <div class="form-check">
+                              <span *ngIf="p.isquickfilter" (click)="categoryChangeQuickFilter(p.id)"><i class="far fa-check-square cursorPointer" ></i></span>
+                              <span *ngIf="!p.isquickfilter" (click)="categoryChangeQuickFilter(p.id)"><i class="far fa-square cursorPointer" ></i></span>
+                            </div>
+                          </td>                          
                           <td class="centeraligntext">
                             <button type="button" class="btn btn-xs btn-danger buttonDivFloatRight thickerFont inlineCategoryBtn" (click)="removeCategory(p.id)">
                               <i class="far fa-trash-alt"></i>
@@ -43,6 +50,11 @@
                           <td>
                             <div class="form-check disabledColor">
                               <i class="far fa-check-square cursorPointer"></i>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-check disabledColor">
+                              <i class="far fa-square cursorPointer"></i>
                             </div>
                           </td>
                           <td class="centeraligntext ">

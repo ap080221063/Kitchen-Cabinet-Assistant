@@ -297,6 +297,14 @@ app.get('/categorylist/:state', function(req, res) {
           }
         });
         res.send(auxCategoryData);
+      }else if(state == 'quickfilter'){
+        var auxCategoryData = [];
+        categorydata.forEach(element => {
+          if(element.active == true && element.isquickfilter == true){
+            auxCategoryData.push(element);
+          }
+        });
+        res.send(auxCategoryData);
       }
     });
 });
@@ -381,6 +389,7 @@ app.post('/categorysave/:id', upload.array(), function(req, res){
         if (id == element.id){
           element.name = body.name;
           element.active = body.active;
+          element.isquickfilter = body.isquickfilter;
         }
       });
       //save to file
