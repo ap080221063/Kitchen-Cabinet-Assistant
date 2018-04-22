@@ -52,11 +52,33 @@ app.post('/productlist', upload.array(), function(req, res) {
 
        if(!(Object.keys(filters).length === 0 && filters.constructor === Object)){
         
-        for(var p = 0; p < productdata.length; p++){
-          if(productdata[p].name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && productdata[p].active === true){
-            productlisttosend.push(productdata[p]);
+        if(filters.nameFilter != undefined) {
+          for(var p = 0; p < productdata.length; p++){
+            if(productdata[p].name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && productdata[p].active === true){
+              productlisttosend.push(productdata[p]);
+            }
           }
         }
+        
+        if(filters.categoryFilter != undefined){
+
+          if(productlisttosend.length > 0){
+            var localProductList = productlisttosend;
+            productlisttosend = [];
+            for(var p = 0; p < localProductList.length; p++){
+              if(localProductList[p].category.id == filters.categoryFilter){
+                productlisttosend.push(localProductList[p]);
+              }
+            }
+          }else{
+            for(var p = 0; p < productdata.length; p++){
+              if(productdata[p].category.id == filters.categoryFilter){
+                productlisttosend.push(productdata[p]);
+              }
+            }
+          }
+        }
+
         res.send(productlisttosend);
 
        } else {

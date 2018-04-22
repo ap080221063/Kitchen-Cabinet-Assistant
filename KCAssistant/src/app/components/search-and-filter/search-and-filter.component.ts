@@ -43,24 +43,21 @@ export class SearchAndFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
     this.categoryListSubscription.unsubscribe();
   }
 
   clearFilter(): void {
-    console.log('searchcomponent->clearfilter');
-
     this.searchservice.setNameFilter('');
     this.searchservice.setCategoryFilter('');
   }
 
   setNFilter(nfilter: string): void {
-    console.log('searchcomponent->sendfilter');
+    console.log(nfilter);
     this.searchservice.setNameFilter(nfilter);
   }
 
   setCFilter(cfilter: string): void {
-    console.log('searchcomponent->sendfilter');
+    console.log(cfilter);
     this.searchservice.setCategoryFilter(cfilter);
   }
 
