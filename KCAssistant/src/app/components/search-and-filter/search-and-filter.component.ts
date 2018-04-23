@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SearchandfilterService } from '../../services/searchandfilter.service';
 import { CategoryService } from '../../services/category.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -13,7 +14,7 @@ import { Category } from '../../classes/productCategory';
 export class SearchAndFilterComponent implements OnInit, OnDestroy {
 
   nameFilter = new Subject<string>();
-  categoryFilter = new Subject<string>();
+  categoryFilter = new BehaviorSubject<number>(0);
 
   categoryListSubscription: Subscription;
   categoryList: Category[];
@@ -46,17 +47,25 @@ export class SearchAndFilterComponent implements OnInit, OnDestroy {
     this.categoryListSubscription.unsubscribe();
   }
 
-  clearFilter(): void {
-    this.searchservice.setNameFilter('');
-    this.searchservice.setCategoryFilter('');
+  public setCategoryFilterLogic (catId: number) {
+    if (catId === this.categoryFilter.getValue()) {
+      this.categoryFilter.next(0);
+    } else {
+      this.categoryFilter.next(catId);
+    }
   }
 
-  setNFilter(nfilter: string): void {
+  private clearFilter(): void {
+    this.searchservice.setNameFilter('');
+    this.searchservice.setCategoryFilter(0);
+  }
+
+  private setNFilter(nfilter: string): void {
     console.log(nfilter);
     this.searchservice.setNameFilter(nfilter);
   }
 
-  setCFilter(cfilter: string): void {
+  private setCFilter(cfilter: number): void {
     console.log(cfilter);
     this.searchservice.setCategoryFilter(cfilter);
   }

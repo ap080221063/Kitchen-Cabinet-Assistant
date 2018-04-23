@@ -60,7 +60,7 @@ app.post('/productlist', upload.array(), function(req, res) {
           }
         }
         
-        if(filters.categoryFilter != undefined){
+        if(filters.categoryFilter != undefined && filters.categoryFilter != 0){
 
           if(productlisttosend.length > 0){
             var localProductList = productlisttosend;

@@ -22,7 +22,7 @@ export class ProductService {
   private nameFilterSubscription: Subscription;
   private nameFilter: string;
   private categoryFilterSubscription: Subscription;
-  private categoryFilter: string;
+  private categoryFilter: number;
 
   constructor(private http: HttpClient, private searchservice: SearchandfilterService) {
 
@@ -68,7 +68,7 @@ export class ProductService {
 
   public clearFilter() {
     this.searchservice.setNameFilter('');
-    this.searchservice.setCategoryFilter('');
+    this.searchservice.setCategoryFilter(0);
     this.getActiveProducts();
   }
 

@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 export class SearchandfilterService {
 
   public sharedNameFilter = new Subject<string>();
-  public sharedCategoryFilter = new Subject<string>();
+  public sharedCategoryFilter = new Subject<number>();
 
   constructor() { }
 
@@ -16,7 +16,7 @@ export class SearchandfilterService {
     this.sharedNameFilter.next(filter);
   }
 
-  public setCategoryFilter(filter: string): void {
+  public setCategoryFilter(filter: number): void {
     console.log('search service -> category filter = ' + filter );
     this.sharedCategoryFilter.next(filter);
   }
