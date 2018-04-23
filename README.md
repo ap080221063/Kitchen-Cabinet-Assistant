@@ -20,14 +20,15 @@ It is intended to be a user friendly and very straight foward app and multi-devi
 * ###### Raspberry Pi installation walkthrough
   * A walkthrough on how to configure a raspberry pi as a webserver to deliver this project at home can be found [here](https://github.com/ap080221063/Kitchen-Cabinet-Assistant/blob/master/Raspberry%20Pi%20Configuration%20Guide.pdf);
 
-## Future developments and Would-Like-To-Have features
+## Future development/derivation/upgrade features
 
 * Adding a barcode property to the product would provide an additional identifier to:
   * Uploading a .json or .xml file with a list of barcodes and quantities that could perform a bulk update;
   * Barcode picking each product, with a barcode reader pistol, could send a POST request to update a product;
   * With the correct integration, the product's price/image/caracteristics would be always up to date;
 * Change the email module (gmail-send), as it restricts the email account that sends the shopping list as being necessarilly a Gmail account.
-* Lazy loading the products in the product list would be more performant and should be one of the next steps;
+* ~~Give the product's category classification a true meaning by allowing the user to filter by product category. This will also end with the tiresome typing each time we need to search a product.~~ [Implemented]
+* Lazy loading the products in the product list would have a better performance and should be one of the next steps. It would reduce the amount of images rendered and the quantity of data pulled from the server.
 
 ## Application images
 
