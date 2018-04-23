@@ -50,30 +50,44 @@ app.post('/productlist', upload.array(), function(req, res) {
      function(err, data) {
        productdata = JSON.parse(data);
 
+       //fill it all at start
+       for(var p = 0; p < productdata.length; p++){
+          productlisttosend.push(productdata[p]);
+        }
+      
+       //start checking filters
        if(!(Object.keys(filters).length === 0 && filters.constructor === Object)){
         
+        //name filter
         if(filters.nameFilter != undefined) {
-          for(var p = 0; p < productdata.length; p++){
-            if(productdata[p].name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && productdata[p].active === true){
-              productlisttosend.push(productdata[p]);
+          var localProductList = productlisttosend;
+          productlisttosend = [];
+
+          for(var p = 0; p < localProductList.length; p++){
+            if(localProductList[p].name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && localProductList[p].active === true){
+              productlisttosend.push(localProductList[p]);
             }
           }
         }
-        
-        if(filters.categoryFilter != undefined && filters.categoryFilter != 0){
 
+        //category filter
+        if(filters.categoryFilter != undefined && filters.categoryFilter != 0){
           if(productlisttosend.length > 0){
             var localProductList = productlisttosend;
             productlisttosend = [];
+
             for(var p = 0; p < localProductList.length; p++){
               if(localProductList[p].category.id == filters.categoryFilter){
                 productlisttosend.push(localProductList[p]);
               }
             }
           }else{
-            for(var p = 0; p < productdata.length; p++){
-              if(productdata[p].category.id == filters.categoryFilter){
-                productlisttosend.push(productdata[p]);
+            var localProductList = productlisttosend;
+            productlisttosend = [];
+
+            for(var p = 0; p < localProductList.length; p++){
+              if(localProductList[p].category.id == filters.categoryFilter){
+                productlisttosend.push(localProductList[p]);
               }
             }
           }
@@ -82,7 +96,7 @@ app.post('/productlist', upload.array(), function(req, res) {
         res.send(productlisttosend);
 
        } else {
-        res.send(productdata);
+        res.send(productlisttosend);
        }
 
      });
