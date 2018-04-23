@@ -55,6 +55,10 @@ export class SearchAndFilterComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getCategoryFilter(): number {
+    return this.categoryFilter.getValue();
+  }
+
   private clearFilter(): void {
     this.searchservice.setNameFilter('');
     this.searchservice.setCategoryFilter(0);
