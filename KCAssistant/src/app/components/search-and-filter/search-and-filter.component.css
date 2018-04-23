@@ -34,4 +34,13 @@ ul {
 
 li {
     display: inline !important;
+    border: 1px dashed #00457d;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #00457e;
+    margin-right: 5px;
+}
+
+.active{
+    color: white !important;
 }
