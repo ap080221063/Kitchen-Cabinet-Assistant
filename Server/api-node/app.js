@@ -50,54 +50,10 @@ app.post('/productlist', upload.array(), function(req, res) {
      function(err, data) {
        productdata = JSON.parse(data);
 
-       //fill it all at start
-       for(var p = 0; p < productdata.length; p++){
-          productlisttosend.push(productdata[p]);
-        }
+       productlisttosend = productdata;
       
        //start checking filters
-       if(!(Object.keys(filters).length === 0 && filters.constructor === Object)){
-        
-        //name filter
-        if(filters.nameFilter != undefined) {
-          var localProductList = productlisttosend;
-          productlisttosend = [];
-
-          for(var p = 0; p < localProductList.length; p++){
-            if(localProductList[p].name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && localProductList[p].active === true){
-              productlisttosend.push(localProductList[p]);
-            }
-          }
-        }
-
-        //category filter
-        if(filters.categoryFilter != undefined && filters.categoryFilter != 0){
-          if(productlisttosend.length > 0){
-            var localProductList = productlisttosend;
-            productlisttosend = [];
-
-            for(var p = 0; p < localProductList.length; p++){
-              if(localProductList[p].category.id == filters.categoryFilter){
-                productlisttosend.push(localProductList[p]);
-              }
-            }
-          }else{
-            var localProductList = productlisttosend;
-            productlisttosend = [];
-
-            for(var p = 0; p < localProductList.length; p++){
-              if(localProductList[p].category.id == filters.categoryFilter){
-                productlisttosend.push(localProductList[p]);
-              }
-            }
-          }
-        }
-
-        res.send(productlisttosend);
-
-       } else {
-        res.send(productlisttosend);
-       }
+       res.send(checkFilters(productlisttosend,filters));
 
      });
 });
@@ -114,7 +70,7 @@ app.get('/images/:imgname', function(req, res) {
 
 });
 
-app.post('/productremove/:id', function(req, res){ 
+app.post('/productremove/:id', upload.array(), function(req, res){ 
   var id = req.params.id;
   // console.log('remove product with id: '+id);
   var filters = req.body;
@@ -123,7 +79,7 @@ app.post('/productremove/:id', function(req, res){
   var productdatatosend = [];
 
   filesystem.readFile('AuxiliaryFiles/products.json', 'utf8', function (err, data) {
-      // if (err) // console.log(err);
+      // if (err) console.log(err);
 
       productdata = JSON.parse(data);
 
@@ -131,21 +87,14 @@ app.post('/productremove/:id', function(req, res){
         if(element.id == id){
           element.active = false;
         }
-        
-        if(!(Object.keys(filters).length === 0 && filters.constructor === Object)){
-            if(element.name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && element.active === true){
-              productdatatosend.push(element);
-            }
-        }else{
-          if(element.active == true){
-            productdatatosend.push(element);
-          }
-        }
-        
       });
+
+      productdatatosend = productdata;
+      productdatatosend = checkFilters(productdatatosend,filters);
+      
       
       filesystem.writeFile ('AuxiliaryFiles/products.json', JSON.stringify(productdata), function(err) {
-          // if (err) // console.log(err);
+          // if (err) console.log(err);
           
           // console.log('products file saved');
 
@@ -158,17 +107,17 @@ app.post('/productremove/:id', function(req, res){
 app.post('/productsave/:id', upload.array(), function(req, res){ 
   var id = req.params.id;
   
-  var incommingProductData = req.body.data;
-  var incommingFilters = req.body.filters;
+  var inProduct = req.body.data;
+  var inFilters = req.body.filters;
 
   var productdata;
-  var productDataRes = [];
+  var productlisttosend = [];
   var lastId = 0;
 
   if (id==0) {
     // console.log('save new product');
     filesystem.readFile('AuxiliaryFiles/products.json', 'utf8', function (err, data) {
-      // if (err) // console.log(err);
+      if (err) console.log(err);
 
       //parse data on file
       productdata = JSON.parse(data);
@@ -179,97 +128,63 @@ app.post('/productsave/:id', upload.array(), function(req, res){
         }
       });
       //give lastid+1 to new product
-      incommingProductData.id = lastId+1;
+      inProduct.id = lastId+1;
 
       //save image in image folder
-      require("fs").writeFile("AuxiliaryFolder/ProductImages/"+incommingProductData.imgUrl.filename, incommingProductData.imgUrl.value, 'base64', function(err) {
-        // if (err) // console.log(err);
+      require("fs").writeFile("AuxiliaryFolder/ProductImages/"+inProduct.imgUrl.filename, inProduct.imgUrl.value, 'base64', function(err) {
+         if (err) console.log(err);
       });
-      //delete incommingProductData.imgUrl.value
-      incommingProductData.imgUrl.value = '';
-      incommingProductData.imgUrl.filename = /*config.url+':'+config.port+*/'images/'+ incommingProductData.imgUrl.filename;
+      //delete inProduct.imgUrl.value
+      inProduct.imgUrl.value = '';
+      inProduct.imgUrl.filename = 'images/'+ inProduct.imgUrl.filename;
       //add new product to array
-      productdata.push(incommingProductData);
+      productdata.push(inProduct);
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/products.json', JSON.stringify(productdata), function(err) {
-          // if (err) // console.log(err);
+           if (err) console.log(err);
           
           // console.log('products file saved');
 
-          if(!(Object.keys(incommingFilters).length === 0 && incommingFilters.constructor === Object)){
-        
-            for(var p = 0; p < productdata.length; p++){
-              if(productdata[p].name.toLowerCase().indexOf(incommingFilters.nameFilter.toLowerCase()) > -1 && productdata[p].active === true){
-                productDataRes.push(productdata[p]);
-              }
-            }
-            res.send(productDataRes);
-    
-          }else{
-
-            for(var p = 0; p < productdata.length; p++){
-              if(productdata[p].active === true){
-                productDataRes.push(productdata[p]);
-              }
-            }
-            res.send(productDataRes);
-
-          }
+          productlisttosend = productdata;
+          res.send(checkFilters(productlisttosend,inFilters));
       });
     });
   }else{
     // console.log('update existing product with id: '+id);
     filesystem.readFile('AuxiliaryFiles/products.json', 'utf8', function (err, data) {
-      // if (err) // console.log(err);
+      if (err) console.log(err);
 
       //parse data on file
       productdata = JSON.parse(data);
       //get last id
       productdata.forEach(element => {
         if (id == element.id){
-          element.name = incommingProductData.name;
-          element.quantity = incommingProductData.quantity;
-          element.category = incommingProductData.category;
-          element.shortageQtyWarning = incommingProductData.shortageQtyWarning;
+          element.name = inProduct.name;
+          element.quantity = inProduct.quantity;
+          element.category = inProduct.category;
+          element.shortageQtyWarning = inProduct.shortageQtyWarning;
 
-          if(incommingProductData.imgUrl.value != ''){
+          if(inProduct.imgUrl.value != ''){
             //save image in image folder
-            require("fs").writeFile("AuxiliaryFolder/ProductImages/" + incommingProductData.imgUrl.filename, incommingProductData.imgUrl.value, 'base64', function(err) {
-              // if (err) // console.log(err);
+            require("fs").writeFile("AuxiliaryFolder/ProductImages/" + inProduct.imgUrl.filename, inProduct.imgUrl.value, 'base64', function(err) {
+              if (err) console.log(err);
             });
-            //delete incommingProductData.imgUrl.value
-            incommingProductData.imgUrl.value = '';
-            incommingProductData.imgUrl.filename = /*config.url+':'+config.port+*/'images/' + incommingProductData.imgUrl.filename;
+            //delete inProduct.imgUrl.value
+            inProduct.imgUrl.value = '';
+            inProduct.imgUrl.filename = 'images/' + inProduct.imgUrl.filename;
           }
 
-          element.imgUrl = incommingProductData.imgUrl;
+          element.imgUrl = inProduct.imgUrl;
         }
       });
       //save to file
       filesystem.writeFile ('AuxiliaryFiles/products.json', JSON.stringify(productdata), function(err) {
-          // if (err) // console.log(err);
+           if (err) console.log(err);
           
           // console.log('products file saved');
 
-          if(!(Object.keys(incommingFilters).length === 0 && incommingFilters.constructor === Object)){
-        
-            for(var p = 0; p < productdata.length; p++){
-              if(productdata[p].name.toLowerCase().indexOf(incommingFilters.nameFilter.toLowerCase()) > -1 && productdata[p].active === true){
-                productDataRes.push(productdata[p]);
-              }
-            }
-            res.send(productDataRes);
-    
-          }else{
-
-            for(var p = 0; p < productdata.length; p++){
-              if(productdata[p].active === true){
-                productDataRes.push(productdata[p]);
-              }
-            }
-            res.send(productDataRes);
-
-          }
+          productlisttosend = productdata;
+          res.send(checkFilters(productlisttosend,inFilters));
       });
     });
   }
@@ -280,7 +195,7 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
   var body = req.body;
 
   var productdata;
-  var productDataRes = [];
+  var productlisttosend = [];
 
   // console.log('save new product');
   filesystem.readFile('AuxiliaryFiles/products.json', 'utf8', function (err, data) {
@@ -305,10 +220,10 @@ app.post('/productsbulksave/', upload.array(), function(req, res){
 
         productdata.forEach(element => {
           if(element.active === true){
-            productDataRes.push(element);
+            productlisttosend.push(element);
           }
         });
-        res.send(productDataRes);
+        res.send(productlisttosend);
     });
   });
 });
@@ -612,4 +527,61 @@ function generateEmailHtml(productlist, tabletemplate){
   
   htmltable = htmltable.replace('@@DYNAMICROWS',rows)
   return htmltable;
+}
+
+function checkFilters(plAux, filters){
+
+  plremoveinactive = [];
+  plAux.forEach(x => {
+    if(x.active === true){
+      plremoveinactive.push(x);
+    }
+  });
+  plAux = plremoveinactive;
+
+  //start checking if the filter object exists
+  if(!(Object.keys(filters).length === 0 && filters.constructor === Object)){
+
+    //check product name filter
+    if(filters.nameFilter != undefined) {
+      var localProductList = plAux;
+      plAux = [];
+
+      for(var p = 0; p < localProductList.length; p++){
+        if(localProductList[p].name.toLowerCase().indexOf(filters.nameFilter.toLowerCase()) > -1 && localProductList[p].active === true){
+          plAux.push(localProductList[p]);
+        }
+      }
+    }
+
+    //check product category filter
+    if(filters.categoryFilter != undefined && filters.categoryFilter != 0){
+      if(plAux.length > 0){
+        var localProductList = plAux;
+        plAux = [];
+
+        for(var p = 0; p < localProductList.length; p++){
+          if(localProductList[p].category.id == filters.categoryFilter){
+            plAux.push(localProductList[p]);
+          }
+        }
+      }else{
+        var localProductList = plAux;
+        plAux = [];
+
+        for(var p = 0; p < localProductList.length; p++){
+          if(localProductList[p].category.id == filters.categoryFilter){
+            plAux.push(localProductList[p]);
+          }
+        }
+      }
+    }
+
+    return(plAux);
+
+  } else {
+    // if nothing then return it as it was when it came in
+    return(plAux);
+  
+  }
 }
