@@ -28,7 +28,8 @@ It is intended to be a user friendly and very straight foward app and multi-devi
   * With the correct integration, the product's price/image/caracteristics would be always up to date;
 * Change the email module (gmail-send), as it restricts the email account that sends the shopping list as being necessarilly a Gmail account.
 * ~~Give the product's category classification a true meaning by allowing the user to filter by product category. This will also end with the tiresome typing each time we need to search a product.~~ [Implemented]
-* Lazy loading the products in the product list would have a better performance and should be one of the next steps. It would reduce the amount of images rendered and the quantity of data pulled from the server.
+* Lazy load the products in the product list or create a paging mechanism would have a better performance and should be one of the next steps. It would reduce the amount of images rendered and the quantity of data pulled from the server.
+* ~~Lazy load the images so that the product list doesn't hang waiting for them.~~ [Implemented]
 
 ## Application images
 
