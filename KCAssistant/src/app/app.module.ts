@@ -16,6 +16,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ShoppingListComponent } from './components/shopping-list/shopping-list.component';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { SettingsComponent } from './components/settings/settings.component';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+import { ImageComponent } from './components/shared/image/image.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     SpinnerComponent,
     ShoppingListComponent,
     SettingsComponent,
+    ImageComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import { SettingsComponent } from './components/settings/settings.component';
     FormsModule,
     ReactiveFormsModule,
     ButtonsModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    LazyLoadImageModule,
   ],
   providers: [
     ProductService,

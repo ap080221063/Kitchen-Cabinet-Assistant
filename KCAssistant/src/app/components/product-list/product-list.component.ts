@@ -8,12 +8,13 @@ import { SettingsComponent } from '../settings/settings.component';
 import { Category } from '../../classes/productCategory';
 import { Subscription } from 'rxjs/Subscription';
 import fontawesome from '@fortawesome/fontawesome';
-import faicons from '@fortawesome/fontawesome-free-regular/';
-import faiconssolid from '@fortawesome/fontawesome-free-solid/';
+import faicons from '@fortawesome/fontawesome-free-regular';
+import faiconssolid from '@fortawesome/fontawesome-free-solid';
 import { ShoppingListComponent } from '../shopping-list/shopping-list.component';
 import { config } from '../../../environments/environment';
 import { SearchandfilterService } from '../../services/searchandfilter.service';
 import { Subject } from 'rxjs/Subject';
+import { LazyLoadModule } from '@greg-md/ng-lazy-load';
 
 @Component({
   selector: 'app-product-list',

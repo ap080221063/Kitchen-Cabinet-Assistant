@@ -38,7 +38,8 @@
               </div> 
             </div>
             <div class="card-body card-header-override">
-              <img class="productimage" src="{{Server + p.imgUrl.filename}}" width="286" height="286" />
+              <app-image [image]="Server + p.imgUrl.filename"></app-image>
+              <!-- <img src="{{Server + p.imgUrl.filename}}" /> -->
             </div>
             <div class="card-footer">
               <div class="buttonDivFloatLeft" style="width:33%; text-align:left;">
