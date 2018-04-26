@@ -39,6 +39,8 @@ li {
     border-radius: 5px;
     color: #00457e;
     margin-right: 5px;
+    margin-bottom: 5px;
+    line-height: 5px;
 }
 
 .active{
