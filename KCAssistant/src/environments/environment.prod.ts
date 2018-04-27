@@ -3,6 +3,6 @@ export const environment = {
 };
 
 export const config = {
-  serverurl: 'http://192.168.1.66',
+  serverurl: 'http://localhost',
   serverport: '8081',
 };
