@@ -17,11 +17,14 @@ export class ShoppingListComponent implements OnInit {
   neededProductListSubscription: Subscription;
   neededProductList: Product[];
   bsModalRef: BsModalRef;
+  confirmBuy: boolean;
+  confirmSend: boolean;
 
-  constructor(inbsmodalref: BsModalRef,
-      private prodService: ProductService) {
-    this.bsModalRef = inbsmodalref;
-   }
+  constructor(inbsmodalref: BsModalRef, private prodService: ProductService) {
+        this.bsModalRef = inbsmodalref;
+        this.confirmBuy = false;
+        this.confirmSend = false;
+    }
 
   ngOnInit() {
     this.neededProductList = [];
@@ -29,13 +32,22 @@ export class ShoppingListComponent implements OnInit {
         .subscribe(products => {this.neededProductList = products; });
   }
 
+  getConfirmationShoppingListBuy(invar: boolean): void {
+    this.confirmBuy = invar;
+  }
+
   confirmShoppingListBuy(): void {
     this.prodService.productBulkAdd(this.neededProductList);
     this.bsModalRef.hide();
   }
 
+  getConfirmationSendShoppingListEmail(invar: boolean): void {
+    this.confirmSend = invar;
+  }
+
   sendShoppingListEmail(): void {
     this.prodService.sendShoppingListEmail(this.neededProductList);
+    this.confirmSend = false;
   }
 
   spinnerchanged(input: any) {

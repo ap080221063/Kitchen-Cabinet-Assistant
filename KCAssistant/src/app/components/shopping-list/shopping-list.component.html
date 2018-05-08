@@ -35,8 +35,12 @@
                 </tbody>
               </table>
               <div class="col-xs-6">
-                <button type="button" class="btn btn-primary buttonsFloatLeft" (click)="sendShoppingListEmail()"><i class="fas fa-envelope"></i></button>
-                <button type="button" class="btn btn-primary btn-success buttonsFloatRight" (click)="confirmShoppingListBuy()"><i class="fas fa-cart-plus"></i></button>               
+                <button type="button" class="btn btn-primary buttonsFloatLeft" *ngIf="!this.confirmSend" (click)="getConfirmationSendShoppingListEmail(true)"><i class="fas fa-envelope"></i></button>
+                <button type="button" class="btn btn-primary btn-warning buttonsFloatLeft" *ngIf="this.confirmSend" (click)="getConfirmationSendShoppingListEmail(false)">Not yet!</button>
+                <button type="button" class="btn btn-primary btn-success buttonsFloatLeft" *ngIf="this.confirmSend" (click)="sendShoppingListEmail()">Send</button>
+                <button type="button" class="btn btn-primary btn-success buttonsFloatRight" *ngIf="!this.confirmBuy" (click)="getConfirmationShoppingListBuy(true)"><i class="fas fa-cart-plus"></i></button>
+                <button type="button" class="btn btn-primary btn-success buttonsFloatRight" *ngIf="this.confirmBuy" (click)="confirmShoppingListBuy()">Confirm</button>
+                <button type="button" class="btn btn-primary btn-warning buttonsFloatRight" *ngIf="this.confirmBuy" (click)="getConfirmationShoppingListBuy(false)">Not yet!</button>               
               </div>    
             </div>
         </div>
