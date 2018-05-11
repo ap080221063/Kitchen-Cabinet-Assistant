@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ImageComponent implements OnInit {
 
-  defaultImage = 'assets/loading.gif';
+  defaultImage = 'assets/loading.jpg';
   @Input() image: string;
   offset = 100;
 
